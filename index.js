@@ -10,13 +10,9 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 400,
     height: 800,
-    transparent: true,
-    frame: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
-      nodeIntegration: true,
-      useContentSize: true,
     },
   });
   win.webContents.openDevTools()
