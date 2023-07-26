@@ -16,7 +16,7 @@ function createWindow() {
     },
   });
   win.webContents.openDevTools()
-  win.loadFile('index.html')
+  win.loadFile('app/index.html')
 }
 
 const sshConfig = {
