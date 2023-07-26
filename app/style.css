@@ -1,0 +1,86 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+    height: 100vh;
+}
+
+#window {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border-radius: 30px;
+    overflow: auto;
+}
+
+#panel {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    cursor: move;
+    user-select: none;
+    z-index: 1;
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+    -webkit-app-cursor: move !important;
+    background-color: white;
+}
+
+.panel-btn {
+    width: 45px;
+    height: 40px;
+    background-color: white;
+    color: black;
+    border: none;
+    outline: none;
+}
+
+#minimize-btn {
+    background-image: url('../assets/minimize.png');
+    background-size: 62%;
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-app-region: no-drag;
+    transition: background-color 0.4s ease;
+}
+
+#minimize-btn:hover {
+    background-color: rgb(177, 177, 177);
+}
+
+#maximize-btn {
+    background-image: url('../assets/maximize.png');
+    background-size: 45%;
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-app-region: no-drag;
+    transition: background-color 0.4s ease;
+}
+
+#maximize-btn:hover {
+    background-color: rgb(177, 177, 177);
+}
+
+#exit-btn {
+    width: 50px;
+    background-image: url('../assets/close.png');
+    background-size: 42%;
+    background-repeat: no-repeat;
+    background-position: 35%;
+    -webkit-app-region: no-drag;
+    transition: background-color 0.4s ease;
+}
+
+#exit-btn:hover {
+    background-color: red;
+}

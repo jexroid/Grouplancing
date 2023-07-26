@@ -8,17 +8,31 @@
   <link rel="stylesheet" href="style.css" />
   <script src="script.js"></script>
   <title>GroupLancing</title>
+  <style>
+    .body {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .body button {
+      width: 70%;
+      height: 50px;
+      font-size: 20px;
+    }
+  </style>
 </head>
-
-
 
 <body>
   <div id="window">
     <div id="panel">
-      <button class="panel-btn" id="minimize-btn">min</button>
-      <button class="panel-btn" id="maximize-btn">max</button>
-      <button class="panel-btn" id="exit-btn">exit</button>
-      <button id="run">ssh</button>
+      <button class="panel-btn" id="minimize-btn"></button>
+      <button class="panel-btn" id="maximize-btn"></button>
+      <button class="panel-btn" id="exit-btn"></button>
+    </div>
+    <div class="body">
+      <button id="run">start</button>
     </div>
   </div>
 </body>
