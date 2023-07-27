@@ -4,18 +4,18 @@ const { electron } = require('process');
 const socks = require('socksv5');
 const { Client } = require('ssh2');
 
-
+let win;
 
 function createWindow() {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 400,
     height: 800,
     transparent: true,
     frame: false,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, 'js/preload.js'),
       contextIsolation: true,
-      nodeIntegration: true,
+      nodeIntegration: false,
       useContentSize: true,
     },
   });
@@ -62,26 +62,20 @@ function ssh() {
   }).listen(1080, '127.0.0.1', () => {
     console.log('SOCKSv5 proxy server started on port 127.0.0.1:1080');
   }).useAuth(socks.auth.None());
-  
-
 }
 
-ipcMain.on("make-ssh-tunnel", (event) => {
-  ssh()
-})
-
-
-
-
-ipcMain.on("close", () => {
-  app.quit();
+// Handler function for SSH tunnel
+ipcMain.handle("make-ssh-tunnel", async () => {
+  ssh();
 });
 
-ipcMain.on("minimize", () => {
+// Handler function for minimizing the window
+ipcMain.handle("minimize", async () => {
   win.minimize();
 });
 
-ipcMain.on("maximize", () => {
+// Handler function for maximizing the window
+ipcMain.handle("maximize", async () => {
   if (win.isMaximized()) {
     win.restore();
   } else {
@@ -89,6 +83,9 @@ ipcMain.on("maximize", () => {
   }
 });
 
+ipcMain.on("close", () => {
+  app.quit();
+});
 
 app.whenReady().then(() => {
   createWindow();
