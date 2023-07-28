@@ -1,34 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Getting the stylesheet
-    // const styleSheet = document.styleSheets[0];
 
-    // const myStyles = `
-    // 0 0 5px var(--btn-color), 0 0 15px var(--btn-color), 0 0 30px var(--btn-color),
-    //     0 0 60px var(--btn-color);`;
-
-    // // Find the :root rule that contains the --btn-color custom property
-    // let elementRules;
-    // for (let i = 0; i < styleSheet.cssRules.length; i++) {
-    //     if (styleSheet.cssRules[i].selectorText === 'child(1)::after') {
-    //         elementRules = styleSheet.cssRules[i];
-    //     }
-    // }
-
-    // // Define a function to toggle the --btn-color property between green and blue
-    // function toggleBtnColor() {
-    //     const currentColor = elementRules.style.getPropertyValue('box-shadow');
-    //     if (currentColor.trim() === myStyles.trim()) {
-    //         elementRules.style.setProperty('box-shadow', myStyles);
-    //     } else {
-    //         elementRules.style.setProperty('box-shadow', '');
-    //     }
-    // }
-
-    // // Call the toggleBtnColor function every one second
-    // setInterval(toggleBtnColor, 1000);
+    
 
     const styleSheet = document.styleSheets[0];
-
     const rule = `.btn:nth-child(1)::before, .btn:nth-child(1)::after`
     const Rule = rule.trim();
     const myStyles = "0 0 5px var(--btn-color), 0 0 15px var(--btn-color), 0 0 30px var(--btn-color),0 0 60px var(--btn-color)"
@@ -55,8 +29,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Call the toggleBoxShadow function every one second
     setInterval(toggleBoxShadow, 500);
+
+    
 
 
     const exitBtn = document.getElementById("exit-btn");
@@ -76,6 +51,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const run = document.getElementById("run");
     run.addEventListener("click", async () => {
+        const btnText = document.getElementById("btn-text");
+        let btnInner = btnText.innerHTML
+        if (btnInner == "Connect") {
+            btnText.innerHTML = "Disconnect";
+        } else {
+            btnText.innerHTML = "Connect";
+        }
+
+        const root = document.documentElement;
+        const currentColor = getComputedStyle(root).getPropertyValue('--btn-color');
+        if (currentColor == "#50ff1f") {
+            root.style.setProperty('--btn-color', "#f12222");
+        } else {
+            root.style.setProperty('--btn-color', "#50ff1f");
+        }
         
         await window.api.makeSshTunnel(1);
 
@@ -96,25 +86,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
         }
-        // async function connectionStatus() {
-            
-        //     while (true) {
-        //         let count = 1;
-        //         try {
-        //             status = await resualt();
-        //             break;
-        //         } catch (error) {
-        //             console.log(count)
-        //             count++
-        //         }
-        //     }
-        //     console.log(status);
-        // }
-
-        // async function resualt() {
-        //     let status = await window.api.statusSshTunnel(0);
-        //     return status;
-        // }
     });
 });
 

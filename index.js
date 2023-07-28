@@ -10,6 +10,7 @@ function createWindow() {
   win = new BrowserWindow({
     width: 400,
     height: 800,
+    icon: "assets/logo.ico",
     transparent: true,
     frame: false,
     webPreferences: {
