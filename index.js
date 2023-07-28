@@ -3,6 +3,7 @@ const path = require('path')
 const { electron } = require('process');
 const { sshTunnel } = require('./js/SshTunnel.js');
 
+
 let win;
 
 function createWindow() {
@@ -18,20 +19,38 @@ function createWindow() {
       useContentSize: true,
     },
   });
-  // win.webContents.openDevTools()
+  win.webContents.openDevTools()
   win.loadFile('app/index.html')
 }
 
 
+// SOCKS5 STATUS
+async function resualt() {
+  let status = await sshTunnel.testConnection();
+  return status
+}
+// SOCKS5 STATUS
 
 
-ipcMain.handle("make-ssh-tunnel", async () => {
-  sshTunnel.ssh();
+ipcMain.handle("make-ssh-tunnel", async (event, args) => {
+  if (args == 1) {
+    console.log("user asked for activating tunnel: ", args)
+    sshTunnel.ssh()
+
+    resualt().then((res) => {
+      ipcMain.handle("status-ssh-tunnel", async (event, args) => {
+        console.log("backend says",res)
+        return res;
+      })
+    })
+  }
+})
+
+ipcMain.handle("status-ssh-tunnel", async (event, args) => {
+  let status = await resualt();
+  console.log("backend says", status);
+  return status;
 });
-
-
-
-
 
 ipcMain.handle("minimize", async () => {
   win.minimize();
@@ -50,7 +69,7 @@ ipcMain.on("close", () => {
   app.quit();
 });
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   createWindow();
 
   app.on("activate", function () {

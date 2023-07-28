@@ -5,35 +5,30 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- WARNING: DO NOT PLACE THESE ASSET FILES ANYWHERE ELSE! (electron needs it here) -->
   <link rel="stylesheet" href="style.css" />
   <script src="script.js"></script>
   <title>GroupLancing</title>
-  <style>
-    .body {
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .body button {
-      width: 70%;
-      height: 50px;
-      font-size: 20px;
-    }
-  </style>
 </head>
 
 <body>
   <div id="window">
-    <div id="panel">
-      <button class="panel-btn" id="minimize-btn"></button>
-      <button class="panel-btn" id="maximize-btn"></button>
-      <button class="panel-btn" id="exit-btn"></button>
+    <div id="header">
+      <button class="header-btn" id="minimize-btn"></button>
+      <button class="header-btn" id="maximize-btn"></button>
+      <button class="header-btn" id="exit-btn"></button>
     </div>
     <div class="body">
-      <button id="run">start</button>
+      <div class="input">
+        <input type="file">
+      </div>
+    </div>
+    <div class="footer">
+      <div>
+        <div class="btn" id="run"><a id="btn-text" href="#">Connect</a></div>
+      </div>
+      <div>
+        <div class="btn btn2"><a href="#">Safe Browser</a></div>
+      </div>
     </div>
   </div>
 </body>
