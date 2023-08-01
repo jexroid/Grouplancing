@@ -52,7 +52,7 @@
 }
 
 #minimize-btn {
-    background-image: url('../assets/minimize.png');
+    background-image: url('../assets/img/minimize.png');
     background-size: 55%;
     background-repeat: no-repeat;
     background-position: center;
@@ -65,7 +65,7 @@
 }
 
 #maximize-btn {
-    background-image: url('../assets/maximize.png');
+    background-image: url('../assets/img/maximize.png');
     background-size: 43%;
     background-repeat: no-repeat;
     background-position: center;
@@ -80,7 +80,7 @@
 #exit-btn {
     /* width: 50px; */
     margin-right: 10px;
-    background-image: url('../assets/close.png');
+    background-image: url('../assets/img/close.png');
     background-size: 44%;
     background-repeat: no-repeat;
     background-position: center;

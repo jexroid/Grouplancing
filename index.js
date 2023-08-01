@@ -1,8 +1,11 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
-const path = require('path')
-const { electron } = require('process');
-const { sshTunnel } = require('./js/SshTunnel.js');
-
+const { app, BrowserWindow, ipcMain } = require("electron");
+const path = require("path");
+const { electron } = require("process");
+const { sshTunnel } = require("./js/SshTunnel.js");
+const {
+  disconnectTOport19,
+  connectTOport19,
+} = require("./js/widesys.js");
 
 let win;
 
@@ -10,53 +13,79 @@ function createWindow() {
   win = new BrowserWindow({
     width: 400,
     height: 800,
-    icon: "assets/logo.ico",
+    icon: "assets/img/logo.ico",
     transparent: true,
     frame: false,
     webPreferences: {
-      preload: path.join(__dirname, 'js/preload.js'),
+      preload: path.join(__dirname, "js/preload.js"),
       contextIsolation: true,
       nodeIntegration: false,
       useContentSize: true,
     },
   });
-  win.webContents.openDevTools()
-  win.loadFile('app/index.html')
+  win.webContents.openDevTools();
+  win.loadFile("app/index.html");
 }
 
+ipcMain.handle("close-ssh-tunnel", async (event, args) => {
+  sshTunnel.closeconnection();
+});
 
 // SOCKS5 STATUS
-async function resualt() {
-  let status = await sshTunnel.testConnection();
-  return status
-}
+// async function resualt() {
+//   testTOport19()
+//     .then((result) => {
+//       return 0
+//     })
+//     .catch((error) => {
+//       console.error("error ding : ", error);
+//     });
+// }
+// resualt().then((res) => {
+//   ipcMain.handle("status-ssh-tunnel", async (event, args) => {
+//     console.log("backend says", res)
+//     return res;
+//   })
+// })
 // SOCKS5 STATUS
-
 
 ipcMain.handle("make-ssh-tunnel", async (event, args) => {
   if (args == 1) {
-    console.log("user asked for activating tunnel: ", args)
-    sshTunnel.ssh()
-
-    resualt().then((res) => {
-      ipcMain.handle("status-ssh-tunnel", async (event, args) => {
-        console.log("backend says",res)
-        return res;
-      })
-    })
+    sshTunnel.ssh();
+    // testTOport19()
+    //   .then((res) => {
+    //     console.error("success ding : ", res);
+    //     return res;
+    //   })
+    //   .catch((error) => {
+    //     console.error("error ding : ", error);
+    //     return error;
+    //   });
+    return 0
+  } else if (args == 0) {
+    sshTunnel.closeconnection();
   }
-})
+});
 
-ipcMain.handle("status-ssh-tunnel", async (event, args) => {
-  let status = await resualt();
-  console.log("backend says", status);
-  return status;
+ipcMain.handle("status-ssh-tunnel", async (event) => {
+  testTOport19()
+    .then((res) => {
+      console.error("success ding : ", res);
+      return res;
+    })
+    .catch((error) => {
+      console.error("error ding : ", error);
+      return error;
+    });
+});
+
+ipcMain.handle("open-browser", () => {
+  sshTunnel.Browsing();
 });
 
 ipcMain.handle("minimize", async () => {
   win.minimize();
 });
-
 
 ipcMain.handle("maximize", async () => {
   if (win.isMaximized()) {

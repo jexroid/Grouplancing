@@ -15,9 +15,7 @@ contextBridge.exposeInMainWorld("WindowInteractApi", API);
 
 const connection = {
     makeSshTunnel: async (status) => await ipcRenderer.invoke("make-ssh-tunnel", status),
-
-    statusSshTunnel: (stat) => ipcRenderer.invoke("status-ssh-tunnel" , stat)
-    // closeSshTunnel: () => ipcRenderer.invoke("close-ssh-tunnel")
+    openBrowser: () => ipcRenderer.invoke("open-browser")
 }
 
 contextBridge.exposeInMainWorld("api", connection);

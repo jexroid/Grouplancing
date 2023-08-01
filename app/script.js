@@ -1,6 +1,13 @@
+
 document.addEventListener("DOMContentLoaded", function () {
 
-    
+
+    const browserBtn = document.getElementById("browse")
+    const run = document.getElementById("run");
+
+    // STYLE MOUSE
+    run.style.cursor = "pointer";
+
 
     const styleSheet = document.styleSheets[0];
     const rule = `.btn:nth-child(1)::before, .btn:nth-child(1)::after`
@@ -12,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
     let elementRules;
     for (let i = 0; i < styleSheet.cssRules.length; i++) {
         let cssR = (styleSheet.cssRules[i].selectorText).trim()
-        console.log(cssR)
         if (cssR == Rule) {
             elementRules = styleSheet.cssRules[i];
             break;
@@ -49,14 +55,45 @@ document.addEventListener("DOMContentLoaded", function () {
         window.WindowInteractApi.max();
     });
 
-    const run = document.getElementById("run");
+    
     run.addEventListener("click", async () => {
         const btnText = document.getElementById("btn-text");
         let btnInner = btnText.innerHTML
         if (btnInner == "Connect") {
             btnText.innerHTML = "Disconnect";
+            run.style.cursor = "progress";
+
+            
+            console.log("(making sshtunnel)")
+            window.api.makeSshTunnel(1);
+
+            // let status = connectionStatus().then((response) => {
+            //     console.log('script:says', status)
+            //     if (status == 1) {
+            //         console.log("connection tested just fine", status)
+            //         run.style.cursor = "pointer";
+            //     } else {
+            //         console.log("god damn")
+            //     }
+            // })
+
+            // let status = connectionStatus().then((response) => {
+            //     if (status == 1) {
+            //         console.log("connection tested just fine", status)
+            //         run.style.cursor = "pointer";
+            //     }
+            // })
+
+            
+
+            
         } else {
             btnText.innerHTML = "Connect";
+            run.style.cursor = "pointer";
+
+
+            window.api.makeSshTunnel(0)
+            
         }
 
         const root = document.documentElement;
@@ -67,27 +104,15 @@ document.addEventListener("DOMContentLoaded", function () {
             root.style.setProperty('--btn-color', "#50ff1f");
         }
         
-        await window.api.makeSshTunnel(1);
+        
 
-
-        let status = connectionStatus().then((response) => {
-            console.log('script:says', status)
+        
+        browserBtn.addEventListener("click", function() {
+            window.api.openBrowser()
         })
         
 
         
-        async function connectionStatus() {
-            while (true) {
-                try {
-                    status = await window.api.statusSshTunnel(0);
-                    break;
-                } catch (error) {
-                    console.error('Error logging status:', error);
-                }
-            }
-        }
+        
     });
 });
-
-
-let clicked = false;
