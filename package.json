@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "socksv5": "^0.0.6",
     "ssh2": "^1.14.0",
     "tunnel-ssh": "^5.1.1"
   },

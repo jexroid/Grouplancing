@@ -3,7 +3,6 @@ import winreg
 import socket
 import sys
 
-
 def DeActivate():
     try:
         key = winreg.OpenKey(winreg.HKEY_CURRENT_USER,

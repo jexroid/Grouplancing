@@ -2,10 +2,7 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const { electron } = require("process");
 const { sshTunnel } = require("./js/SshTunnel.js");
-const {
-  disconnectTOport19,
-  connectTOport19,
-} = require("./js/widesys.js");
+const { disconnectTOport19, connectTOport19 } = require("./js/widesys.js");
 
 let win;
 
@@ -31,58 +28,33 @@ ipcMain.handle("close-ssh-tunnel", async (event, args) => {
   sshTunnel.closeconnection();
 });
 
-// SOCKS5 STATUS
-// async function resualt() {
-//   testTOport19()
-//     .then((result) => {
-//       return 0
-//     })
-//     .catch((error) => {
-//       console.error("error ding : ", error);
-//     });
-// }
-// resualt().then((res) => {
-//   ipcMain.handle("status-ssh-tunnel", async (event, args) => {
-//     console.log("backend says", res)
-//     return res;
-//   })
-// })
-// SOCKS5 STATUS
-
-ipcMain.handle("make-ssh-tunnel", async (event, args) => {
-  if (args == 1) {
-    sshTunnel.ssh();
-    // testTOport19()
-    //   .then((res) => {
-    //     console.error("success ding : ", res);
-    //     return res;
-    //   })
-    //   .catch((error) => {
-    //     console.error("error ding : ", error);
-    //     return error;
-    //   });
-    return 0
-  } else if (args == 0) {
-    sshTunnel.closeconnection();
+ipcMain.on("wide-system-proxy", (event, args) => {
+  if (args === 0) {
+    connectTOport19()
+      .then((event.returnValue = 0))
+      .catch((err) => {
+        event.returnValue = 1;
+        console.log("Error windows registry :");
+      });
   }
 });
 
-ipcMain.handle("status-ssh-tunnel", async (event) => {
-  testTOport19()
-    .then((res) => {
-      console.error("success ding : ", res);
-      return res;
-    })
-    .catch((error) => {
-      console.error("error ding : ", error);
-      return error;
-    });
+ipcMain.handle("make-ssh-tunnel", async (event, args) => {
+  if (args == 1) {
+    console.log("renderer want connection");
+    sshTunnel.ssh();
+    return "fine";
+  } else if (args == 0) {
+    sshTunnel.closeconnection();
+    return "close";
+  }
 });
 
 ipcMain.handle("open-browser", () => {
   sshTunnel.Browsing();
 });
 
+// ! window integration
 ipcMain.handle("minimize", async () => {
   win.minimize();
 });
@@ -99,6 +71,7 @@ ipcMain.on("close", () => {
   app.quit();
 });
 
+// ! Closing app
 app.whenReady().then(async () => {
   createWindow();
 

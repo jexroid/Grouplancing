@@ -7,37 +7,48 @@ class sshTunnel {
     static server;
 
     static ssh() {
-        socks.createServer((info, accept, deny) => {
+        socks
+          .createServer((info, accept, deny) => {
             // NOTE: you could just use one ssh2 client connection for all forwards, but
             // you could run into server-imposed limits if you have too many forwards open
             // at any given time
             const conn = new Client();
-            conn.on('ready', () => {
-                conn.forwardOut(info.srcAddr,
-                    info.srcPort,
-                    info.dstAddr,
-                    info.dstPort,
-                    (err, stream) => {
-                        if (err) {
-                            conn.end();
-                            return deny();
-                        }
+            conn
+              .on("ready", () => {
+                conn.forwardOut(
+                  info.srcAddr,
+                  info.srcPort,
+                  info.dstAddr,
+                  info.dstPort,
+                  (err, stream) => {
+                    if (err) {
+                      conn.end();
+                      return deny();
+                    }
 
-                        server = accept(true);
-                        if (server) {
-                            stream.pipe(server).pipe(stream).on('close', () => {
-                                conn.end();
-                            });
-                        } else {
-                            conn.end();
-                        }
-                    });
-            }).on('error', (err) => {
+                    const clientSocket = accept(true);
+                    if (clientSocket) {
+                      stream
+                        .pipe(clientSocket)
+                        .pipe(stream)
+                        .on("close", () => {
+                          conn.end();
+                        });
+                    } else {
+                      conn.end();
+                    }
+                  }
+                );
+              })
+              .on("error", (err) => {
                 deny();
-            }).connect(config.sshConfig);
-        }).listen(config.localProxy.port, 'localhost', () => {
-            console.log('SOCKSv5 proxy server started on port ',config.localProxy.port);
-        }).useAuth(socks.auth.None());
+              })
+              .connect(sshConfig);
+          })
+          .listen(1080, "localhost", () => {
+            console.log("SOCKSv5 proxy server started on port 1080");
+          })
+          .useAuth(socks.auth.None());
     }
 
     static closeconnection() {
