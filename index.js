@@ -31,7 +31,11 @@ class sshTunnel {
             type: "REG_DWORD",
           },
           ProxyServer: {
-            value: "socks=127.0.0.1:19000;",
+            value: "socks5://localhost:19000",
+            type: "REG_SZ",
+          },
+          ProxyOverride: {
+            value: "localhost;127.0.0.1",
             type: "REG_SZ",
           },
         },
