@@ -1,21 +1,38 @@
 {
-  "name": "group",
+  "name": "GroupLancing",
   "version": "1.0.0",
-  "description": "",
+  "description": "this is a vpn application from grouplancing team made by amirreza farzan and alireza nobakht",
   "main": "index.js",
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
+    "start": "electron .",
+    "build": "electron-builder --win"
   },
-  "author": "",
+  "author": "Amirreza Farzan && Alireza Nobakht",
   "license": "ISC",
   "dependencies": {
     "socksv5": "^0.0.6",
     "ssh2": "^1.14.0",
-    "tunnel-ssh": "^5.1.1"
+    "regedit": "^5.1.2"
   },
   "devDependencies": {
-    "electron": "^25.3.1"
+    "electron": "^25.3.1",
+    "electron-builder": "^24.6.3",
+    "electron-wix-msi": "^5.0.0",
+    "regedit": "^5.1.2"
+  },
+  "build": {
+    "appId": "com.grouplancing",
+    "productName": "GroupLancing",
+    "files": [
+      "index.js",
+      "index.html",
+      "script.js",
+      "preload.js",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets\\logo1.png"
+    }
   }
 }
