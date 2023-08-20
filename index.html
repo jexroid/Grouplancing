@@ -5,16 +5,33 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
   <script src="script.js"></script>
   <title>GroupLancing</title>
-  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+  <input type="checkbox" id="active">
+  <label for="active" class="menu-btn"><span></span></label>
+  <label for="active" class="close"></label>
+  <div class="wrapper">
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Gallery</a></li>
+      <li><a href="#">Feedback</a></li>
+    </ul>
+  </div>
+  <div class="content">
+    <div class="title">
+      Fullscreen Overlay Navigation Bar</div>
+    <p>
+      (Hamburger Menu-2)</p>
+  </div>
   <div id="window">
     <div id="header">
       <label class="switch">
-        <input class="switch__input" type="checkbox" role="switch">
         <svg class="switch__icon switch__icon--light" viewBox="0 0 12 12" width="12px" height="12px" aria-hidden="true">
           <g fill="none" stroke="#fff" stroke-width="1" stroke-linecap="round">
             <circle cx="6" cy="6" r="2" />
@@ -30,13 +47,7 @@
             </g>
           </g>
         </svg>
-        <svg class="switch__icon switch__icon--dark" viewBox="0 0 12 12" width="12px" height="12px" aria-hidden="true">
-          <g fill="none" stroke="#fff" stroke-width="1" stroke-linejoin="round" transform="rotate(-45,6,6)">
-            <path
-              d="m9,10c-2.209,0-4-1.791-4-4s1.791-4,4-4c.304,0,.598.041.883.105-.995-.992-2.367-1.605-3.883-1.605C2.962.5.5,2.962.5,6s2.462,5.5,5.5,5.5c1.516,0,2.888-.613,3.883-1.605-.285.064-.578.105-.883.105Z" />
-          </g>
-        </svg>
-        <span class="switch__sr">Dark Mode</span>
+
       </label>
       <button class="header-btn" id="minimize-btn"></button>
       <button class="header-btn" id="maximize-btn"></button>
@@ -44,59 +55,10 @@
     </div>
     <div class="body">
       <div class="logo">
-        <img src="assets/white-logo.png" id="text-logo">
-        <div id="logo-wrapper"><img src="assets/logo2.png" id="logo-img"></div>
-        <p class="info timer">00:00:00</p> <br>
-        <p class="info traffic">0.00 00.00kB 0.00</p>
-      </div>
-      <div class="input">
-        <div id="input-wrapper">
-          <div class="grid1">
-            <div class="form__group field">
-              <input type="input" class="form__field" placeholder="IP" name="name" id='name' required />
-              <label for="name" class="form__label">IP</label>
-            </div>
-          </div>
-          <div class="grid2">
-            <div class="form__group field">
-              <input type="number" class="form__field" placeholder="Port" name="name" id='name' required />
-              <label for="name" class="form__label">Port</label>
-            </div>
-          </div>
-          <div class="grid3">
-            <div class="form__group field">
-              <input type="input" class="form__field" placeholder="Username" name="name" id='name' required />
-              <label for="name" class="form__label">Username</label>
-            </div>
-          </div>
-          <div class="grid4">
-            <div class="form__group field">
-              <input type="input" class="form__field" placeholder="Password" name="name" id='name' required />
-              <label for="name" class="form__label">Password</label>
-            </div>
-          </div>
-        </div>
-
-        <label for="images" class="drop-container" id="drop-container" style="display: none;">
-          <span class="drop-title">Drop files here</span>
-          or
-          <input type="file" id="images" accept="image/*" required>
-        </label>
-
-        <div class="switch-button">
-          <input class="switch-button-checkbox" type="checkbox"></input>
-          <label class="switch-button-label" for=""><span class="switch-button-label-span">Text</span></label>
-        </div>
+        <img src="assets/black-logo.png" id="text-logo">
       </div>
     </div>
-    <div class="footer">
-      <div>
-        <div class="btn btn1" id="btn1"><a id="btn-text" href="#">Connect</a></div>
-      </div>
-      <div>
-        <div class="btn btn2" id="btn2"><a style="font-size: 28px;" href="#">Safe Browser</a></div>
-      </div>
-    </div>
+  </div>
   </div>
 </body>
 

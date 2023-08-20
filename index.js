@@ -3,28 +3,39 @@ const path = require("path");
 const socks = require("socksv5");
 const { Client } = require("ssh2");
 const { exec } = require("child_process");
+const Store = require("electron-store");
 const regedit = require("regedit");
+regedit.setExternalVBSLocation("resources/regedit/vbs");
+
+
 
 const localProxy = {
   host: "localhost",
   port: 19000,
 };
 
-const sshConfig = {
-  host: "51.222.112.51",
-  port: 2703,
-  username: "amirrezafarzan",
-  password: "bt9e7m#zHw7T",
+// * SAVING USER SETTING
+const store = new Store();
+
+let sshConfig = {
+  host: "",
+  port: 2,
+  username: "",
+  password: "",
 };
+
+
+
+
 class sshTunnel {
   static server;
 
   static async widesystem() {
     const keyPath =
       "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings";
-
-    try {
-      await regedit.promisified.putValue({
+      
+      try {
+        await regedit.promisified.putValue({
         [keyPath]: {
           ProxyEnable: {
             value: 1,
@@ -64,48 +75,61 @@ class sshTunnel {
       console.error("Error setting registry values:", error);
     }
   }
+  static deny(err) {
+      if (err && err.code === "ECONNRESET") {
+        console.log("ECONNRESET error occurred");
+      } else {
+        // Handle other errors or the original deny logic
+      }
+    }
 
   static ssh() {
-    socks
-      .createServer((info, accept, deny) => {
-        // NOTE: you could just use one ssh2 client connection for all forwards, but
-        // you could run into server-imposed limits if you have too many forwards open
-        // at any given time
-        const conn = new Client();
-        conn
-          .on("ready", () => {
-            conn.forwardOut(
-              info.srcAddr,
-              info.srcPort,
-              info.dstAddr,
-              info.dstPort,
-              (err, stream) => {
-                if (err) {
-                  conn.end();
-                  return deny();
+    try {
+      socks
+        .createServer((info, accept, deny) => {
+          const conn = new Client();
+          conn
+            .on("ready", () => {
+              conn.forwardOut(
+                info.srcAddr,
+                info.srcPort,
+                info.dstAddr,
+                info.dstPort,
+                (err, stream) => {
+                  if (err) {
+                    conn.end();
+                    return deny(err);
+                  }
+                  const clientSocket = accept(true);
+                  if (clientSocket) {
+                    stream
+                      .pipe(clientSocket)
+                      .pipe(stream)
+                      .on("close", () => {
+                        conn.end();
+                      });
+                  } else {
+                    conn.end();
+                  }
                 }
-
-                const clientSocket = accept(true);
-                if (clientSocket) {
-                  stream
-                    .pipe(clientSocket)
-                    .pipe(stream)
-                    .on("close", () => {
-                      conn.end();
-                    });
-                } else {
-                  conn.end();
-                }
-              }
-            );
-          })
-          .on("error", (err) => {
-            deny();
-          })
-          .connect(sshConfig);
-      })
-      .listen(localProxy.port, "localhost")
-      .useAuth(socks.auth.None());
+              );
+            })
+            .on("error", (err) => {
+              deny(err);
+            })
+            .connect(sshConfig);
+        })
+        .listen(localProxy.port, "localhost")
+        .useAuth(socks.auth.None());
+    } catch (err) {
+      if (err.code == "ECONNRESET") {
+        console.log("ECONNRESET error occurred");
+      } else if (err.message == "Connection lost before handshake") {
+        console.log(
+          "Connection lost before handshake error occurred fuuuuuuuuuuuuuuuuuuuuuuck"
+        );
+      }
+    }
   }
 
   static closeconnection() {
@@ -122,9 +146,9 @@ class sshTunnel {
     exec(command);
   }
 }
-
-
 // ? done of declerfiaction
+
+
 
 
 
@@ -147,23 +171,67 @@ function createWindow() {
       useContentSize: true,
     },
   });
-  win.webContents.openDevTools();
   win.loadFile("index.html");
+  win.webContents.openDevTools();
 }
 
-ipcMain.handle("make-ssh-tunnel", async (event, args) => {
+// read ECONNRESET
+// ! SSH CONFIGURATION
+ipcMain.on("make-ssh-tunnel", async (event, args) => {
   if (args == 1) {
-    sshTunnel.widesystem();
-    isWideSystem = 1;
+    if (sshConfig.port == 2) {
+      alert("fuck no")
+      // CODE FOR ERROR OF USER HANDELING, no input have been set from user and sshConfig is not set by Store class
+    } else {
+      sshTunnel
+        .widesystem()
+        .then(() => {
+          event.returnValue = 0;
+        })
+        .catch(() => {
+          event.returnValue = 1;
+        });
+      isWideSystem = 1;
+    }
   } else if (args == 0) {
     sshTunnel.localsystem();
     isWideSystem = 0;
   }
 });
 
+// * USER INPUT VALIFATION
+ipcMain.on("cred", (event, ip, port, username, password) => {
+  if (ip === '') {
+    console.log("the input is empty") // MAYBE WE SHOLD HANDLE THIS IN FRONT
+    // VALIDATE FOR ALL INPUTS : IP PORT USERNAME , PASSWORD
+  } else {
+    try {
+      store.set({
+        sshconfig: {
+          sship: ip,
+          sshport: port,
+          sshusername: username,
+          sshpassword: password,
+        },
+      });
+
+      console.log(store.get("sshconfig.sship"));
+    } catch (err) {
+      console.log("ERROR while setting ip");
+    }
+  }
+})
+
+
 ipcMain.handle("open-browser", () => {
   sshTunnel.Browsing();
 });
+// ! SSH CONFIGURATION
+
+
+
+
+
 
 // ! window integration
 ipcMain.handle("minimize", async () => {
