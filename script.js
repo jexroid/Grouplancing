@@ -1,85 +1,121 @@
 // * SSH CONNECTION FUNCTION
+let whiteThemed = true;
 let isPulsing = false;
 let isTextInputVisible = true;
+let turnedOn = false;
+let isWindowsRegistered = async () => {
+  return await window.api.makeSshTunnel(1);
+};
 
 document.addEventListener("DOMContentLoaded", function () {
-  document.getElementsByClassName("switch")[0].click();
-  const browserBtn = document.getElementById("btn2");
+  //! timer
+  const imageContainer = document.querySelector(".image-container");
 
-  // STYLE MOUSE
-  
+  imageContainer.addEventListener("click", function () {
+    imageContainer.classList.toggle("clicked");
+  });
+  const timer = document.querySelector(".timer");
+  let isClicked = false;
+  let intervalId;
 
+  imageContainer.addEventListener("click", function () {
+    if (!isClicked) {
+      isClicked = true;
+      timer.style.opacity = 1;
+      timer.style.pointerEvents = "auto";
+      startTimer();
+    } else {
+      isClicked = false;
+      timer.style.opacity = 0;
+      timer.style.pointerEvents = "none";
+      clearInterval(intervalId);
+    }
+  });
 
-  // Find the :root rule that contains the --btn-color custom property
-  
+  function startTimer() {
+    let seconds = 0;
+    intervalId = setInterval(function () {
+      seconds++;
+      const formattedTime = formatTime(seconds);
+      timer.textContent = formattedTime;
+    }, 1000);
+  }
 
-  // Define a function to toggle the box-shadow property
+  function formatTime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+    return `${padZero(hours)}:${padZero(minutes)}:${padZero(remainingSeconds)}`;
+  }
 
+  function padZero(number) {
+    return number.toString().padStart(2, "0");
+  }
 
+  // code for overlay of the setting:
+  const overlay = document.querySelector(".overlay");
+  const second_setting = document.getElementById("setone");
+
+  let SettingClicked = false;
+  second_setting.addEventListener("click", function () {
+    if (SettingClicked == false) {
+      overlay.classList.add("active");
+      SettingClicked = true;
+    } else if (SettingClicked == true) {
+      overlay.classList.remove("active");
+      SettingClicked = false;
+    }
+  });
+
+  // ? JS STYLE FUNCTIONS
   const exitBtn = document.getElementById("exit-btn");
+  const minimizeBtn = document.getElementById("minimize-btn");
+  const maximizeBtn = document.getElementById("maximize-btn");
+  const btn1 = document.getElementById("btn1");
+  // const root = document.documentElement;
+  // const browserBtn = document.getElementById("browserBTN");
+  // const btnText = document.getElementById("btn-text");
+  // const ipInp = document.querySelector(".ip");
+  // const portInp = document.querySelector(".port");
+  // const usernameInp = document.querySelector(".username");
+  // const passwordInp = document.querySelector(".pass");
+  // const currentColor = getComputedStyle(root).getPropertyValue("--btn-color");
+
+  // ! NAVIGATION BTN
+  document.getElementsByClassName("switch")[0].click();
+
   exitBtn.addEventListener("click", function () {
     window.WindowInteractApi.close();
   });
 
-  const minimizeBtn = document.getElementById("minimize-btn");
   minimizeBtn.addEventListener("click", function () {
     window.WindowInteractApi.min();
   });
 
-  const maximizeBtn = document.getElementById("maximize-btn");
   maximizeBtn.addEventListener("click", function () {
     window.WindowInteractApi.max();
   });
+  // ! NAVIGATION BTN
 
-  browserBtn.addEventListener("click", function () {
-    window.api.openBrowser();
-  });
+  // ? BROWSER BTN
+  // browserBtn.addEventListener("click", function () {
+  //   window.api.openBrowser();
+  // });
 
-  const logoWrapper = document.getElementById("logo-wrapper");
-  const logoImg = document.getElementById("logo-img");
-  const root = document.documentElement;
-  const btn1 = document.getElementById("btn1");
-
-  const btnText = document.getElementById("btn-text");
   btn1.addEventListener("click", function () {
-    if (btnText.innerHTML == "Connect") {
+    if (turnedOn == false) {
+      turnedOn = true;
+
       window.api.makeSshTunnel(1);
-      btnText.innerHTML = "Disconnect";
+      // window.api.credentials(
+      //   ipInp.value,
+      //   portInp.value,
+      //   usernameInp.value,
+      //   passwordInp.value
+      // );
     } else {
-      btnText.innerHTML = "Connect";
       window.api.makeSshTunnel(0);
-    }
-
-    const currentColor = getComputedStyle(root).getPropertyValue("--btn-color");
-    if (currentColor === "#50ff1f") {
-      root.style.setProperty("--btn-color", "#f12222");
-    } else {
-      root.style.setProperty("--btn-color", "#50ff1f");
-    }
-
-    if (!isPulsing) {
-      logoImg.classList.add("turn");
-      logoWrapper.classList.add("shadow-pulse");
-      isPulsing = true;
-    } else {
-      logoImg.classList.remove("turn");
-      logoWrapper.classList.remove("shadow-pulse");
-      isPulsing = false;
-    }
-  });
-
-  const fileInput = document.getElementById("drop-container");
-  const textInput = document.getElementById("input-wrapper");
-  const switchBtn = document.getElementsByClassName("switch-button")[0];
-  switchBtn.addEventListener("click", function () {
-    if (isTextInputVisible) {
-      textInput.style.display = "none";
-      fileInput.style.display = "flex";
-      isTextInputVisible = false; // Update the flag variable
-    } else {
-      textInput.style.display = "flex";
-      fileInput.style.display = "none";
-      isTextInputVisible = true; // Update the flag variable
+      turnedOn = false;
     }
   });
 });

@@ -1,38 +1,47 @@
 {
   "name": "GroupLancing",
   "version": "1.0.0",
-  "description": "this is a vpn application from grouplancing team made by amirreza farzan and alireza nobakht",
+  "description": "tekanesh",
   "main": "index.js",
   "scripts": {
-    "start": "electron .",
-    "build": "electron-builder --win"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Amirreza Farzan && Alireza Nobakht",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jexroid/group.git"
+  },
+  "author": "amirreza farzan",
   "license": "ISC",
-  "dependencies": {
-    "socksv5": "^0.0.6",
-    "ssh2": "^1.14.0",
-    "regedit": "^5.1.2"
+  "bugs": {
+    "url": "https://github.com/jexroid/group/issues"
   },
+  "homepage": "https://github.com/jexroid/group#readme",
   "devDependencies": {
-    "electron": "^25.3.1",
-    "electron-builder": "^24.6.3",
-    "electron-wix-msi": "^5.0.0",
-    "regedit": "^5.1.2"
+    "electron": "^26.0.0",
+    "electron-builder": "^24.6.3"
+  },
+  "dependencies": {
+    "electron-store": "^8.1.0",
+    "regedit": "^5.1.2",
+    "socksv5": "^0.0.6",
+    "ssh2": "^1.14.0"
   },
   "build": {
-    "appId": "com.grouplancing",
-    "productName": "GroupLancing",
-    "files": [
-      "index.js",
-      "index.html",
-      "script.js",
-      "preload.js",
-      "package.json"
+    "extraResources": [
+      {
+        "from": "node_modules/regedit/vbs",
+        "to": "regedit/vbs",
+        "filter": [
+          "**/*"
+        ]
+      }
     ],
     "win": {
       "target": "nsis",
       "icon": "assets\\logo1.png"
+    },
+    "nsis": {
+      "deleteAppDataOnUninstall": true
     }
   }
 }

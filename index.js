@@ -1,13 +1,11 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
+const Store = require("electron-store");
 const path = require("path");
 const socks = require("socksv5");
 const { Client } = require("ssh2");
 const { exec } = require("child_process");
-const Store = require("electron-store");
 const regedit = require("regedit");
 regedit.setExternalVBSLocation("resources/regedit/vbs");
-
-
 
 const localProxy = {
   host: "localhost",
@@ -18,14 +16,11 @@ const localProxy = {
 const store = new Store();
 
 let sshConfig = {
-  host: "",
-  port: 2,
-  username: "",
-  password: "",
+  host: "51.222.112.51",
+  port: 2703,
+  username: "amirrezafarzan",
+  password: "bt9e7m#zHw7T",
 };
-
-
-
 
 class sshTunnel {
   static server;
@@ -33,9 +28,9 @@ class sshTunnel {
   static async widesystem() {
     const keyPath =
       "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings";
-      
-      try {
-        await regedit.promisified.putValue({
+
+    try {
+      await regedit.promisified.putValue({
         [keyPath]: {
           ProxyEnable: {
             value: 1,
@@ -76,12 +71,12 @@ class sshTunnel {
     }
   }
   static deny(err) {
-      if (err && err.code === "ECONNRESET") {
-        console.log("ECONNRESET error occurred");
-      } else {
-        // Handle other errors or the original deny logic
-      }
+    if (err && err.code === "ECONNRESET") {
+      console.log("ECONNRESET error occurred");
+    } else {
+      // Handle other errors or the original deny logic
     }
+  }
 
   static ssh() {
     try {
@@ -148,13 +143,9 @@ class sshTunnel {
 }
 // ? done of declerfiaction
 
-
-
-
-
 let win;
 let isMaximized = false;
-let isWideSystem = 0; // 1 == on , 0 == off
+let isWideSystem = 0; // 1 = on , 0 = off
 sshTunnel.ssh();
 
 function createWindow() {
@@ -164,6 +155,7 @@ function createWindow() {
     icon: "assets/logo1.png",
     transparent: true,
     frame: false,
+    // resizable: false,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
@@ -171,8 +163,9 @@ function createWindow() {
       useContentSize: true,
     },
   });
-  win.loadFile("index.html");
+  
   win.webContents.openDevTools();
+  win.loadFile("index.html");
 }
 
 // read ECONNRESET
@@ -180,8 +173,8 @@ function createWindow() {
 ipcMain.on("make-ssh-tunnel", async (event, args) => {
   if (args == 1) {
     if (sshConfig.port == 2) {
-      alert("fuck no")
-      // CODE FOR ERROR OF USER HANDELING, no input have been set from user and sshConfig is not set by Store class
+      console.log("its not set");
+      // CODE FOR ERROR OF USER HANDLING, no input have been set from user and sshConfig is not set by Store class
     } else {
       sshTunnel
         .widesystem()
@@ -199,10 +192,10 @@ ipcMain.on("make-ssh-tunnel", async (event, args) => {
   }
 });
 
-// * USER INPUT VALIFATION
+// * USER INPUT VALIDATION
 ipcMain.on("cred", (event, ip, port, username, password) => {
-  if (ip === '') {
-    console.log("the input is empty") // MAYBE WE SHOLD HANDLE THIS IN FRONT
+  if (ip === "") {
+    console.log("the input is empty"); // MAYBE WE SHOULD HANDLE THIS IN FRONT
     // VALIDATE FOR ALL INPUTS : IP PORT USERNAME , PASSWORD
   } else {
     try {
@@ -220,18 +213,12 @@ ipcMain.on("cred", (event, ip, port, username, password) => {
       console.log("ERROR while setting ip");
     }
   }
-})
-
+});
 
 ipcMain.handle("open-browser", () => {
   sshTunnel.Browsing();
 });
 // ! SSH CONFIGURATION
-
-
-
-
-
 
 // ! window integration
 ipcMain.handle("minimize", async () => {

@@ -14,9 +14,10 @@ contextBridge.exposeInMainWorld("WindowInteractApi", API);
 
 
 const connection = {
-    makeSshTunnel: async (status) => await ipcRenderer.invoke("make-ssh-tunnel", status),
+    makeSshTunnel: async (status) => await ipcRenderer.send("make-ssh-tunnel", status),
     WideSystemProxy: (button) => ipcRenderer.sendSync("wide-system-proxy", button),
-    openBrowser: () => ipcRenderer.invoke("open-browser")
+    openBrowser: () => ipcRenderer.invoke("open-browser"),
+    credentials: (ip , port , user , pass) => ipcRenderer.send("cred", ip , port , user , pass)
 }
 
 contextBridge.exposeInMainWorld("api", connection);
