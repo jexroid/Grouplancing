@@ -35,7 +35,7 @@
 #header {
     position: absolute;
     display: flex;
-    align-items: top;
+    /* align-items: top; */
     justify-content: flex-end;
     top: 0;
     left: 0;
@@ -238,8 +238,11 @@ i.power-icon {
 
 .setting {
     cursor: pointer;
-    position: relative;
-    top: 60%;
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    /* top: 50%; */
+    -webkit-app-region: no-drag;
 }
 
 
