@@ -4,7 +4,8 @@
   "description": "tekanesh",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron .",
+    "build": "electron-builder"
   },
   "repository": {
     "type": "git",
