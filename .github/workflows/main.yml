@@ -17,6 +17,7 @@ jobs:
     - name: Use Node.js ${{ matrix.node_version }}
       uses: actions/setup-node@v1
       with:
+        github_token: ${{ secrets.github_token }}
         node-version: ${{ matrix.node_version }}
 
     - name: npm install, build
