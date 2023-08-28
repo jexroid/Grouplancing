@@ -12,6 +12,10 @@ jobs:
         node_version: ['18', '17', '18.17.1']
         os: [ubuntu-latest, windows-latest, macOS-latest]
 
+    permissions:
+      issues: write
+      pull-requests: write
+      
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node_version }}
