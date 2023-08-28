@@ -47,7 +47,7 @@ jobs:
         release-repo: lucyio/electron
   
   build_on_win:
-    runs-on: windows-2016
+    runs-on: windows-2022
     steps:
     - uses: actions/checkout@master
       with:
