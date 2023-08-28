@@ -1,7 +1,6 @@
-on:
-  pull_request:
-    branches:
-    - main
+name: Build & Release
+
+on: release
 jobs:
   test:
     name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
