@@ -1,9 +1,17 @@
+@font-face {
+    font-family: 'IRANSans';
+    src: url('assets/sans.ttf') format('truetype');
+}
+
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: sans-serif;
+}
 
+h5 {
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 :root {
@@ -13,6 +21,11 @@
     --trans-timing: cubic-bezier(0.76, 0.05, 0.24, 0.95);
     --trans-timing-in: cubic-bezier(0.76, 0.05, 0.86, 0.06);
     --trans-timing-out: cubic-bezier(0.05, 0.76, 0.06, 0.86);
+}
+
+.overlay {
+    font-family: 'IRANSans', sans-serif;
+
 }
 
 #window {
@@ -35,7 +48,7 @@
 #header {
     position: absolute;
     display: flex;
-    align-items: top;
+    /* align-items: top; */
     justify-content: flex-end;
     top: 0;
     left: 0;
@@ -163,6 +176,7 @@
 }
 
 .timer {
+    font-family: Arial, Helvetica, sans-serif;
     position: absolute;
     bottom: 4px;
     font-size: 23px;
@@ -189,7 +203,7 @@ i.power-icon {
 .image-container {
     position: absolute;
     display: inline-block;
-    border-radius: 50%;
+    border-radius: 100%;
     border: 8px solid rgb(199, 188, 188);
     overflow: hidden;
     padding: 35px;
@@ -204,7 +218,7 @@ i.power-icon {
 
 .timer {
     position: absolute;
-    top: 125%;
+    top: 135%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 20px;
@@ -212,6 +226,7 @@ i.power-icon {
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
+
 }
 
 .fade-in {
@@ -238,11 +253,20 @@ i.power-icon {
 
 .setting {
     cursor: pointer;
-    position: relative;
-    top: 60%;
+    position: absolute;
+    left: 15px;
+    top: 10px;
+    /* top: 50%; */
+    -webkit-app-region: no-drag;
 }
 
+#setone {
+    transition: transform .7s ease-in-out;
+}
 
+#setone:hover {
+    transform: rotate(360deg);
+}
 
 @keyframes anime {
     0% {
@@ -287,10 +311,52 @@ i.power-icon {
 
 }
 
+.inputEl {
+    width: 300px;
+    height: 700px;
+    padding-top: 80px;
 
-/* input style */
-/* From uiverse.io by @satyamchaudharydev */
-/* removing default style of button */
+}
+
+.inputEl>div {
+
+
+    margin-top: 30px;
+
+
+}
+
+/* styling of Input */
+.form {
+    --timing: 0.3s;
+    --width-of-input: 200px;
+    --height-of-input: 40px;
+    --border-height: 2px;
+    --input-bg: #fff;
+    --border-color: rgb(49, 174, 188);
+    --border-radius: 30px;
+    --after-border-radius: 1px;
+    position: sticky;
+    display: flex;
+    padding-inline: 0.8em;
+    border-radius: var(--border-radius);
+    transition: border-radius 0.5s ease;
+    background: var(--input-bg, #fff);
+}
+
+
+.input {
+    font-size: 0.9rem;
+    background-color: transparent;
+    width: 100%;
+    height: 100%;
+    padding-inline: 0.5em;
+    padding-block: 0.7em;
+    border: none;
+    inset: 0;
+    margin: auto;
+    font-family: 'IRANSans', sans-serif;
+}
 
 .form button {
     border: none;
@@ -299,34 +365,44 @@ i.power-icon {
 }
 
 /* styling of whole input container */
-.form {
-    --timing: 0.3s;
-    --width-of-input: 200px;
-    --height-of-input: 40px;
-    --border-height: 2px;
-    --input-bg: #fff;
-    --border-color: #2f2ee9;
-    --border-radius: 30px;
-    --after-border-radius: 1px;
-    position: absolute;
-    width: var(--width-of-input);
-    height: var(--height-of-input);
-    display: flex;
-    align-items: center;
-    padding-inline: 0.8em;
-    border-radius: var(--border-radius);
-    transition: border-radius 0.5s ease;
-    background: var(--input-bg, #fff);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    right: auto;
-    bottom: auto;
-    
-
+.form button {
+    border: none;
+    background: none;
+    color: #8b8ba7;
 }
 
-/* styling of Input */
+
+
+
+/* input style */
+input:not(:placeholder-shown)~.reset {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* sizing svg icons */
+.form svg {
+    width: 17px;
+    margin-top: 3px;
+}
+
+input:focus {
+    outline: none;
+}
+
+/* here is code of animated border */
+.form:focus-within:before {
+    transform: scale(1);
+}
+
+/* styling of close button */
+/* == you can click the close button to remove text == */
+.reset {
+    border: none;
+    background: none;
+    opacity: 0;
+    visibility: hidden;
+}
 
 .input {
     font-size: 0.9rem;
@@ -358,34 +434,224 @@ i.power-icon {
     border-radius: var(--after-border-radius);
 }
 
-input:focus {
-    outline: none;
+
+/* btn */
+#vorod {
+    position: static;
+    display: inline-block;
+    width: 280px;
+    padding: 15px 30px;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: rgb(49, 174, 188);
+    background: transparent;
+    cursor: pointer;
+    transition: ease-out 0.5s;
+    border: 2px solid rgb(49, 174, 188);
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 0 rgb(49, 174, 188);
+    animation: fadeIn 3s;
+    font-family: 'IRANSans', sans-serif;
 }
 
-/* here is code of animated border */
-.form:focus-within:before {
-    transform: scale(1);
+#vorod:hover {
+    color: white;
+    box-shadow: inset 0 -100px 0 0 rgb(49, 174, 188);
+
 }
 
-/* styling of close button */
-/* == you can click the close button to remove text == */
-.reset {
-    border: none;
-    background: none;
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+#vorod:active {
+    transform: scale(0.9);
+    animation: fadeIn 3s;
+}
+
+/* btn */
+
+
+
+/* alert box */
+
+#warning-msg {
     opacity: 0;
-    visibility: hidden;
+    transition: opacity 0.5s ease-in-out;
+    font-size: 13px;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 3px 3px 3px 3px;
+    animation-name: anime;
+    animation-duration: 2s;
+    color: #9F6000;
+    background-color: #FEEFB3;
 }
 
-/* close button shown when typing */
-input:not(:placeholder-shown)~.reset {
+
+#warning-msg.active {
     opacity: 1;
-    visibility: visible;
 }
 
-/* sizing svg icons */
-.form svg {
-    width: 17px;
-    margin-top: 3px;
+/* alert box */
+
+#error-msg {
+    color: #270;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    font-size: 13px;
+    margin-top: -50px !important;
+    padding: 10px;
+    border-radius: 3px 3px 3px 3px;
+    animation-name: anime;
+    animation-duration: 2s;
+    font-size: 13px;
+    color: #D8000C;
+    background-color: #FFBABA;
+
 }
 
-/* input style */
+#error-msg.active {
+    opacity: 1;
+}
+
+
+/* info code */
+#info {
+    margin-top: 50px;
+}
+
+/* banner code */
+#banner {
+    position: absolute;
+    top: 82%;
+    left: 80%;
+    display: flex;
+    align-items: center;
+}
+
+#matn {
+    color: rgb(49, 174, 188);
+}
+
+#infoimage {
+    margin-left: 5px;
+}
+
+#secbanner {
+    position: absolute;
+    border: 1px solid rgba(199, 188, 188, 0);
+    top: 87%;
+    left: 0;
+    display: flex;
+    text-align: right;
+    justify-content: right;
+    font-size: 11px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+.proxytype {
+    position: relative;
+    top: 100%;
+    margin: 0px 8px;
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+    /* font-weight: 550; */
+    /* font-size: 14px; */
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    padding: 0.8em;
+    margin-bottom: 0.8em;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.radio-label:hover {
+    background-color: #e6e6e6;
+}
+
+.radio-input:checked+.radio-label .radio-inner-circle {
+    border-color: rgb(15, 0, 153);
+}
+
+.radio-input:checked+.radio-label .radio-inner-circle::after {
+    content: '';
+    display: block;
+    width: 0.5em;
+    height: 0.5em;
+    background-color: rgb(15, 0, 153);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.radio-input {
+    position: absolute;
+    opacity: 0;
+}
+
+.radio-inner-circle {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid #888;
+    border-radius: 50%;
+    margin-right: 0.9em;
+    transition: border-color 0.2s;
+    position: relative;
+}
+
+.radio-label:hover .radio-inner-circle {
+    border-color: #555;
+}
+
+.radio-input:checked+.radio-label .radio-inner-circle {
+    border-color: rgb(15, 0, 153);
+}
+
+.radio-input:checked+.radio-label {
+    color: rgb(15, 0, 153);
+
+}
+
+.radio-input:focus+.radio-label {
+    outline: 2px solid rgb(15, 0, 153);
+}
+
+#connect {
+    position: relative;
+    top: 125%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.radio-input:disabled + .radio-label {
+  opacity: 0.5; /* Change the opacity to make it look disabled */
+  cursor: not-allowed; /* Change the cursor to indicate it's not clickable */
+}
+
+/* Disable the radio inputs */
+.radio-input:disabled {
+  pointer-events: none; /* Disable pointer events to make it unclickable */
+}

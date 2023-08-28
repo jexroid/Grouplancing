@@ -1,83 +1,34 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const Store = require("electron-store");
 const path = require("path");
 const socks = require("socksv5");
 const { Client } = require("ssh2");
 const { exec } = require("child_process");
+
 const regedit = require("regedit");
+const { constrainedMemory } = require("process");
 regedit.setExternalVBSLocation("resources/regedit/vbs");
 
 const localProxy = {
   host: "localhost",
-  port: 19000,
+  port: 25000,
 };
+
+// ! HANDLING GLOBAL ERRORS
+process.on("uncaughtException", (error) => {
+  if (error.code === "ECONNRESET") {
+    console.log("ECONNRESET occured");
+  } else {
+    console.log("error happend. and i dont know what is it");
+  }
+});
+
+// ! HANDLING GLOBAL ERRORS
 
 // * SAVING USER SETTING
 const store = new Store();
 
-let sshConfig = {
-  host: "51.222.112.51",
-  port: 2703,
-  username: "amirrezafarzan",
-  password: "bt9e7m#zHw7T",
-};
-
 class sshTunnel {
-  static server;
-
-  static async widesystem() {
-    const keyPath =
-      "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings";
-
-    try {
-      await regedit.promisified.putValue({
-        [keyPath]: {
-          ProxyEnable: {
-            value: 1,
-            type: "REG_DWORD",
-          },
-          ProxyServer: {
-            value: "socks5://localhost:19000",
-            type: "REG_SZ",
-          },
-          ProxyOverride: {
-            value: "localhost;127.0.0.1",
-            type: "REG_SZ",
-          },
-        },
-      });
-      console.log("Registry values set on successfully");
-    } catch (error) {
-      console.error("Error setting registry values:", error);
-    }
-  }
-
-  static async localsystem() {
-    const keyPath =
-      "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings";
-
-    try {
-      await regedit.promisified.putValue({
-        [keyPath]: {
-          ProxyEnable: {
-            value: 0,
-            type: "REG_DWORD",
-          },
-        },
-      });
-      console.log("Registry values set off successfully");
-    } catch (error) {
-      console.error("Error setting registry values:", error);
-    }
-  }
-  static deny(err) {
-    if (err && err.code === "ECONNRESET") {
-      console.log("ECONNRESET error occurred");
-    } else {
-      // Handle other errors or the original deny logic
-    }
-  }
-
   static ssh() {
     try {
       socks
@@ -112,7 +63,7 @@ class sshTunnel {
             .on("error", (err) => {
               deny(err);
             })
-            .connect(sshConfig);
+            .connect(store.get("sshconfig"));
         })
         .listen(localProxy.port, "localhost")
         .useAuth(socks.auth.None());
@@ -120,24 +71,64 @@ class sshTunnel {
       if (err.code == "ECONNRESET") {
         console.log("ECONNRESET error occurred");
       } else if (err.message == "Connection lost before handshake") {
-        console.log(
-          "Connection lost before handshake error occurred fuuuuuuuuuuuuuuuuuuuuuuck"
+        console.log("Connection lost before handshake error occurred");
+        dialog.showErrorBox(
+          "Error",
+          "اتصال سه مرحله ای تی سی پی با مشکل مواجه شد"
         );
       }
     }
   }
 
-  static closeconnection() {
-    // Stop the SOCKS5 server
-    this.server.close();
+  static async widesystem() {
+    const keyPath =
+      "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings";
 
-    // Close the SSH connection
-    this.conn.end();
+    try {
+      await regedit.promisified.putValue({
+        [keyPath]: {
+          ProxyEnable: {
+            value: 1,
+            type: "REG_DWORD",
+          },
+          ProxyServer: {
+            value: "socks5://localhost:25000",
+            type: "REG_SZ",
+          },
+          ProxyOverride: {
+            value: "localhost;127.0.0.1",
+            type: "REG_SZ",
+          },
+        },
+      });
+      console.log("Registry values set on successfully");
+    } catch (error) {
+      console.error("Error setting registry values:", error);
+    }
+  }
+
+  static async localsystem() {
+    const keyPath =
+      "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings";
+
+    try {
+      await regedit.promisified.putValue({
+        [keyPath]: {
+          ProxyEnable: {
+            value: 0,
+            type: "REG_DWORD",
+          },
+        },
+      });
+      console.log("Registry values set off successfully");
+    } catch (error) {
+      console.error("Error setting registry values:", error);
+    }
   }
 
   static Browsing() {
-    const command = `"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir="%USERPROFILE%\\proxy-profile" --proxy-server="socks5://localhost:19000"`;
-
+    console.log("running chrome");
+    const command = `"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir="%USERPROFILE%\\proxy-profile" --proxy-server="socks5://localhost:25000"`;
     exec(command);
   }
 }
@@ -163,7 +154,7 @@ function createWindow() {
       useContentSize: true,
     },
   });
-  
+
   win.webContents.openDevTools();
   win.loadFile("index.html");
 }
@@ -172,7 +163,7 @@ function createWindow() {
 // ! SSH CONFIGURATION
 ipcMain.on("make-ssh-tunnel", async (event, args) => {
   if (args == 1) {
-    if (sshConfig.port == 2) {
+    if (store.get("sshconfig") == undefined) {
       console.log("its not set");
       // CODE FOR ERROR OF USER HANDLING, no input have been set from user and sshConfig is not set by Store class
     } else {
@@ -183,6 +174,10 @@ ipcMain.on("make-ssh-tunnel", async (event, args) => {
         })
         .catch(() => {
           event.returnValue = 1;
+          dialog.showErrorBox(
+            "Error",
+            "تنظیم کردن پروکسی برای کل سیستم با شکست مواجه شد"
+          );
         });
       isWideSystem = 1;
     }
@@ -192,26 +187,31 @@ ipcMain.on("make-ssh-tunnel", async (event, args) => {
   }
 });
 
-// * USER INPUT VALIDATION
-ipcMain.on("cred", (event, ip, port, username, password) => {
-  if (ip === "") {
-    console.log("the input is empty"); // MAYBE WE SHOULD HANDLE THIS IN FRONT
-    // VALIDATE FOR ALL INPUTS : IP PORT USERNAME , PASSWORD
+ipcMain.handle("loadcred", (event) => {
+  if (store.get("sshconfig") == undefined) {
+    console.log("no input has saved");
+    return false;
   } else {
-    try {
-      store.set({
-        sshconfig: {
-          sship: ip,
-          sshport: port,
-          sshusername: username,
-          sshpassword: password,
-        },
-      });
+    console.log("i got the data");
+    return store.get("sshconfig");
+  }
+});
 
-      console.log(store.get("sshconfig.sship"));
-    } catch (err) {
-      console.log("ERROR while setting ip");
-    }
+ipcMain.on("cred", (event, sship, sshport, sshusername, sshpassword) => {
+  try {
+    store.set({
+      sshconfig: {
+        host: sship,
+        port: sshport,
+        username: sshusername,
+        password: sshpassword,
+      },
+    });
+
+    console.log(store.get("sshconfig"));
+  } catch (err) {
+    console.log("ERROR while setting ip");
+    dialog.showErrorBox("Error", "تنظیم کردن مشخصات وی پی اس با خطا مواجه شد");
   }
 });
 
