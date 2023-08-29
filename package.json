@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder"
+    "build": "electron-builder build --win --publish never",
+    "deploy": "electron-builder build --win --publish always"
   },
   "repository": {
     "type": "git",
@@ -23,10 +24,16 @@
   },
   "dependencies": {
     "electron-store": "^8.1.0",
-    "electron-updater": "^6.1.1",
     "socksv5": "^0.0.6",
     "ssh2": "^1.14.0"
   },
-  "build": "electron-builder build --win --publish never",
-  "deploy": "electron-builder build --win --publish always"
+  "build": {
+    "win": {
+      "target": "nsis",
+      "icon": "assets\\logo1.png"
+    },
+    "nsis": {
+      "deleteAppDataOnUninstall": true
+    }
+  }
 }
