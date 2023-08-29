@@ -23,26 +23,10 @@
   },
   "dependencies": {
     "electron-store": "^8.1.0",
-    "regedit": "^5.1.2",
+    "electron-updater": "^6.1.1",
     "socksv5": "^0.0.6",
     "ssh2": "^1.14.0"
   },
-  "build": {
-    "extraResources": [
-      {
-        "from": "node_modules/regedit/vbs",
-        "to": "regedit/vbs",
-        "filter": [
-          "**/*"
-        ]
-      }
-    ],
-    "win": {
-      "target": "nsis",
-      "icon": "assets\\logo1.png"
-    },
-    "nsis": {
-      "deleteAppDataOnUninstall": true
-    }
-  }
+  "build": "electron-builder build --win --publish never",
+  "deploy": "electron-builder build --win --publish always"
 }

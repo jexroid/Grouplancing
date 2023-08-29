@@ -4,10 +4,8 @@ const path = require("path");
 const socks = require("socksv5");
 const { Client } = require("ssh2");
 const { exec } = require("child_process");
+const { autoUpdater } = require("electron-updater");
 
-const regedit = require("regedit");
-const { constrainedMemory } = require("process");
-regedit.setExternalVBSLocation("resources/regedit/vbs");
 
 const localProxy = {
   host: "localhost",
@@ -146,7 +144,7 @@ function createWindow() {
     icon: "assets/logo1.png",
     transparent: true,
     frame: false,
-    // resizable: false,
+    resizable: false,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
@@ -155,8 +153,10 @@ function createWindow() {
     },
   });
 
-  win.webContents.openDevTools();
   win.loadFile("index.html");
+  win.once('ready-to-show', () => {
+  autoUpdater.checkForUpdatesAndNotify();
+});
 }
 
 // read ECONNRESET
@@ -257,4 +257,22 @@ app.whenReady().then(async () => {
 
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
+});
+
+// * UPDATES SECTION
+ipcMain.handle("app_version", (event) => {
+  return app.getVersion();
+});
+
+
+autoUpdater.on("update-available", () => {
+  win.webContents.send("update_available");
+});
+autoUpdater.on("update-downloaded", () => {
+  win.webContents.send("update_downloaded");
+});
+
+
+ipcMain.on("restart_app", () => {
+  autoUpdater.quitAndInstall();
 });

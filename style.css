@@ -655,3 +655,28 @@ input:focus {
 .radio-input:disabled {
   pointer-events: none; /* Disable pointer events to make it unclickable */
 }
+
+
+#version {
+    position: absolute;
+    top: 98%;
+    left: 5%;
+    font-size: 10px;
+}
+
+
+/* notification for updates */
+#notification {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 200px;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.hidden {
+    display: none;
+}

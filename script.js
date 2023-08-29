@@ -81,6 +81,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const errorMsg = document.getElementById("es-circle");
   const radio1 = document.getElementById("radio1");
   const radio2 = document.getElementById("radio2");
+  const version = document.getElementById("version");
+  const ClosinUpdate = document.getElementById("close-button");
+  const RestartUpdate = document.getElementById("restart-button");
+  const notification = document.getElementById("notification");
+  const message = document.getElementById("message");
+
   const ipRegex =
     /^(([01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}([01]?\d{1,2}|2[0-4]\d|25[0-5])$/;
   // ! NAVIGATION BTN
@@ -92,7 +98,6 @@ document.addEventListener("DOMContentLoaded", function () {
   minimizeBtn.addEventListener("click", function () {
     window.WindowInteractApi.min();
   });
-
 
   // ! NAVIGATION BTN
   radio1.disabled = true;
@@ -210,4 +215,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
   //* copy paste using click right
+
+  // ? VERSION
+  let VERSION = async () => {
+    return await window.WindowInteractApi.ver();
+  };
+  VERSION().then((value) => {
+    version.innerHTML = "v" + value;
+  });
+
+  // * UPDATING THE APP
+  ClosinUpdate.addEventListener("click", () => {
+    notification.classList.add("hidden");
+  })
+
+  RestartUpdate.addEventListener("click", () => {
+    window.WindowInteractApi.restart();
+  })
+  
+
 });

@@ -6,12 +6,13 @@ const API = {
 
     max: () => ipcRenderer.invoke("maximize"),
     min: () => ipcRenderer.invoke("minimize"),
-    close: () => ipcRenderer.send("close")
+    close: () => ipcRenderer.send("close"),
+    // * UPDATES
+    ver: async (version) => ipcRenderer.invoke("app_version", version),
+    restart: () => ipcRenderer.send("restart_app")
 };
 
 contextBridge.exposeInMainWorld("WindowInteractApi", API);
-
-
 
 
 const connection = {
@@ -25,9 +26,24 @@ const connection = {
 contextBridge.exposeInMainWorld("api", connection);
 
 
-// function invokeTunnel() {
-//     ipcRenderer.on('activate-reply', (_event, arg) => {
-//         contextBridge.exposeInMainWorld("changeHTML", content);
-//     })
-//     ipcRenderer.send('activate-message', 'active')
-// }
+
+
+
+// UPDATE
+const notification = document.getElementById("notification");
+const message = document.getElementById("message");
+const restartButton = document.getElementById("restart-button");
+ipcRenderer.on("update_available", () => {
+  ipcRenderer.removeAllListeners("update_available");
+  message.innerText = "A new update is available. Downloading now...";
+  notification.classList.remove("hidden");
+});
+ipcRenderer.on("update_downloaded", () => {
+  ipcRenderer.removeAllListeners("update_downloaded");
+  message.innerText =
+    "Update Downloaded. It will be installed on restart. Restart now?";
+  restartButton.classList.remove("hidden");
+  notification.classList.remove("hidden");
+});
+
+
