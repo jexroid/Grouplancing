@@ -1,10 +1,12 @@
-const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog, shell } = require("electron");
 const Store = require("electron-store");
 const path = require("path");
 const socks = require("socksv5");
 const { Client } = require("ssh2");
 const { exec } = require("child_process");
 const { autoUpdater } = require("electron-updater");
+const regedit = require("regedit");
+regedit.setExternalVBSLocation("resources/regedit/vbs");
 
 
 const localProxy = {
@@ -17,7 +19,7 @@ process.on("uncaughtException", (error) => {
   if (error.code === "ECONNRESET") {
     console.log("ECONNRESET occured");
   } else {
-    console.log("error happend. and i dont know what is it");
+    console.log("error happend. "+error);
   }
 });
 
@@ -275,4 +277,8 @@ autoUpdater.on("update-downloaded", () => {
 
 ipcMain.on("restart_app", () => {
   autoUpdater.quitAndInstall();
+});
+
+ipcMain.on("open-url", (event, url) => {
+  shell.openExternal(url);
 });

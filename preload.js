@@ -9,7 +9,8 @@ const API = {
     close: () => ipcRenderer.send("close"),
     // * UPDATES
     ver: async (version) => ipcRenderer.invoke("app_version", version),
-    restart: () => ipcRenderer.send("restart_app")
+    restart: () => ipcRenderer.send("restart_app"),
+    openURLInBrowser: (url) => ipcRenderer.send('open-url', url)
 };
 
 contextBridge.exposeInMainWorld("WindowInteractApi", API);
