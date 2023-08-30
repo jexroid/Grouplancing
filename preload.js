@@ -46,5 +46,3 @@ ipcRenderer.on("update_downloaded", () => {
   restartButton.classList.remove("hidden");
   notification.classList.remove("hidden");
 });
-
-
