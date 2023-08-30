@@ -85,6 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const ClosinUpdate = document.getElementById("close-button");
   const RestartUpdate = document.getElementById("restart-button");
   const notification = document.getElementById("notification");
+  const coonectMSG = document.getElementById("connect");
 
   const ipRegex =
     /^(([01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}([01]?\d{1,2}|2[0-4]\d|25[0-5])$/;
@@ -130,10 +131,12 @@ document.addEventListener("DOMContentLoaded", function () {
   btn1.addEventListener("click", function () {
     if (turnedOn == false) {
       turnedOn = true;
+      coonectMSG.innerHTML = 'Connected!'
       radio1.disabled = false;
       radio2.disabled = false;
     } else {
       turnedOn = false;
+      coonectMSG.innerHTML = "Connect Now";
       radio1.disabled = true;
       radio2.disabled = true;
 
