@@ -123,10 +123,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 3000)
       } else {
         if (!isClicked) {
+          startTimer()
           isClicked = true;
           timer.style.opacity = 1;
           timer.style.pointerEvents = "auto";
         } else {
+          
           isClicked = false;
           timer.style.opacity = 0;
           timer.style.pointerEvents = "none";
