@@ -114,13 +114,18 @@ document.addEventListener("DOMContentLoaded", function () {
   btn1.addEventListener("click", function () {
     window.api.LoadCredentials().then((data) => {
       if (data == false) {
-        console.log("data is not entered")
+        console.log("data is not entered");
+        imageContainer.classList.toggle("notclick");
+        coonectMSG.innerHTML = "Please Fill the Data"
+        setTimeout(() => {
+          imageContainer.classList.remove("notclick");
+          coonectMSG.innerHTML = "Connect Now"
+        }, 3000)
       } else {
         if (!isClicked) {
           isClicked = true;
           timer.style.opacity = 1;
           timer.style.pointerEvents = "auto";
-          startTimer();
         } else {
           isClicked = false;
           timer.style.opacity = 0;

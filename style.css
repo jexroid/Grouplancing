@@ -214,6 +214,10 @@ i.power-icon {
     border-color: rgb(49, 174, 188);
 }
 
+.image-container.notclick {
+    border-color: rgb(218, 43, 43);
+}
+
 .timer {
     position: absolute;
     top: 135%;
