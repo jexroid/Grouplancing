@@ -9,28 +9,10 @@ let isWindowsRegistered = async () => {
 
 document.addEventListener("DOMContentLoaded", function () {
   //! timer
-  const imageContainer = document.querySelector(".image-container");
-
-  imageContainer.addEventListener("click", function () {
-    imageContainer.classList.toggle("clicked");
-  });
   const timer = document.querySelector(".timer");
   let isClicked = false;
   let intervalId;
 
-  imageContainer.addEventListener("click", function () {
-    if (!isClicked) {
-      isClicked = true;
-      timer.style.opacity = 1;
-      timer.style.pointerEvents = "auto";
-      startTimer();
-    } else {
-      isClicked = false;
-      timer.style.opacity = 0;
-      timer.style.pointerEvents = "none";
-      clearInterval(intervalId);
-    }
-  });
 
   function startTimer() {
     let seconds = 0;
@@ -85,6 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const ClosinUpdate = document.getElementById("close-button");
   const RestartUpdate = document.getElementById("restart-button");
   const notification = document.getElementById("notification");
+  const imageContainer = document.querySelector(".image-container");
   const coonectMSG = document.getElementById("connect");
 
   const ipRegex =
@@ -129,22 +112,41 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   btn1.addEventListener("click", function () {
-    if (turnedOn == false) {
-      turnedOn = true;
-      coonectMSG.innerHTML = 'Connected!'
-      radio1.disabled = false;
-      radio2.disabled = false;
-    } else {
-      turnedOn = false;
-      coonectMSG.innerHTML = "Connect Now";
-      radio1.disabled = true;
-      radio2.disabled = true;
+    window.api.LoadCredentials().then((data) => {
+      if (data == false) {
+        console.log("data is not entered")
+      } else {
+        if (!isClicked) {
+          isClicked = true;
+          timer.style.opacity = 1;
+          timer.style.pointerEvents = "auto";
+          startTimer();
+        } else {
+          isClicked = false;
+          timer.style.opacity = 0;
+          timer.style.pointerEvents = "none";
+          clearInterval(intervalId);
+        }
+        imageContainer.classList.toggle("clicked");
+        if (turnedOn == false) {
+          turnedOn = true;
+          coonectMSG.innerHTML = "Connected!";
+          radio1.disabled = false;
+          radio2.disabled = false;
+        } else {
+          turnedOn = false;
+          coonectMSG.innerHTML = "Connect Now";
+          radio1.disabled = true;
+          radio2.disabled = true;
 
-      // switching the radio bottoms if one of them were on
-      radio1.checked = false;
-      radio2.checked = false;
-      window.api.makeSshTunnel(0);
-    }
+          // switching the radio bottoms if one of them were on
+          radio1.checked = false;
+          radio2.checked = false;
+          window.api.makeSshTunnel(0);
+        }
+      }
+    })
+    
   });
 
   //? validating user data
