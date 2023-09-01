@@ -661,9 +661,9 @@ input:focus {
 
 #version {
     position: absolute;
-    top: 98%;
+    top: 97%;
     left: 5%;
-    font-size: 10px;
+    font-size: 14px;
 }
 
 
@@ -715,3 +715,27 @@ input:focus {
     transform: translateY(-1px);
 }
 /* button for update */
+
+a {
+    text-decoration: none;
+    color: #18272F;
+    font-weight: 700;
+    position: relative;
+}
+
+a::before {
+    content: '';
+    background-color: hsla(196, 61%, 58%, .75);
+    position: absolute;
+    left: 0;
+    bottom: 3px;
+    width: 100%;
+    height: 8px;
+    z-index: -1;
+    transition: all .3s ease-in-out;
+}
+
+a:hover::before {
+    bottom: 0;
+    height: 100%;
+}
