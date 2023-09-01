@@ -27,7 +27,7 @@ process.on("uncaughtException", (error) => {
 
 // * SAVING USER SETTING
 const store = new Store();
-store.delete("sshconfig")
+
 
 
 class sshTunnel {
@@ -158,7 +158,6 @@ function createWindow() {
   });
 
   win.loadFile("index.html");
-
   win.once('ready-to-show', () => {
   autoUpdater.checkForUpdatesAndNotify();
 });

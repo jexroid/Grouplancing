@@ -3,16 +3,13 @@ let whiteThemed = true;
 let isPulsing = false;
 let isTextInputVisible = true;
 let turnedOn = false;
-let isWindowsRegistered = async () => {
-  return await window.api.makeSshTunnel(1);
-};
+let firstTimeUsingTheApp = true;
 
 document.addEventListener("DOMContentLoaded", function () {
   //! timer
   const timer = document.querySelector(".timer");
   let isClicked = false;
   let intervalId;
-
 
   function startTimer() {
     let seconds = 0;
@@ -116,19 +113,18 @@ document.addEventListener("DOMContentLoaded", function () {
       if (data == false) {
         console.log("data is not entered");
         imageContainer.classList.toggle("notclick");
-        coonectMSG.innerHTML = "Please Fill the Data"
+        coonectMSG.innerHTML = "Please Fill the Data";
         setTimeout(() => {
           imageContainer.classList.remove("notclick");
-          coonectMSG.innerHTML = "Connect Now"
-        }, 3000)
+          coonectMSG.innerHTML = "Connect Now";
+        }, 3000);
       } else {
         if (!isClicked) {
-          startTimer()
+          startTimer();
           isClicked = true;
           timer.style.opacity = 1;
           timer.style.pointerEvents = "auto";
         } else {
-          
           isClicked = false;
           timer.style.opacity = 0;
           timer.style.pointerEvents = "none";
@@ -152,8 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
           window.api.makeSshTunnel(0);
         }
       }
-    })
-    
+    });
   });
 
   //? validating user data
@@ -177,7 +172,10 @@ document.addEventListener("DOMContentLoaded", function () {
         break;
       default:
         validation.innerHTML = "اطلاعات ثبت شد";
-        warn.classList.add("active");
+        if (firstTimeUsingTheApp === false) {
+          warn.classList.add("active");
+        }
+        firstTimeUsingTheApp = false;
         setTimeout(() => {
           validation.innerHTML = "ورود";
           warn.classList.remove("active");
@@ -238,13 +236,15 @@ document.addEventListener("DOMContentLoaded", function () {
   // * UPDATING THE APP
   ClosinUpdate.addEventListener("click", () => {
     notification.classList.add("hidden");
-  })
+  });
 
   RestartUpdate.addEventListener("click", () => {
     window.WindowInteractApi.restart();
-  })
+  });
 
   version.addEventListener("click", () => {
-    window.WindowInteractApi.openURLInBrowser('https://github.com/jexroid/group')
-  })
+    window.WindowInteractApi.openURLInBrowser(
+      "https://github.com/jexroid/group"
+    );
+  });
 });
