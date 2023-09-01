@@ -27,7 +27,7 @@ process.on("uncaughtException", (error) => {
 
 // * SAVING USER SETTING
 const store = new Store();
-store.delete('sshconfig')
+
 
 class sshTunnel {
   static ssh() {

@@ -46,7 +46,9 @@
       "icon": "assets\\logo1.png"
     },
     "nsis": {
-      "deleteAppDataOnUninstall": true
+      "deleteAppDataOnUninstall": true,
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
     }
   }
 }
