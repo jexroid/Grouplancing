@@ -27,6 +27,7 @@
 
 <div align='center'>
   <h1 align='center'>Contacting info</h1>
+  <p>if you faced a bug, issue or have any suggestions, contact me or mention in discussion or issue</p>
   
 [![Discord](https://img.shields.io/badge/Discord-blue?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/58yRbQNSKK) [![Instagram](https://img.shields.io/badge/Instagram-red?style=for-the-badge&logo=Instagram&logoColor=white)](https://instagram.com/jexroid) [![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/jexroid) [![Medium](https://img.shields.io/badge/Medium-black?style=for-the-badge&logo=medium&logoColor=white)](https://medium.com/@jexroid) [![Telegram](https://img.shields.io/badge/jexroid-blue?style=for-the-badge&logo=telegram)](https://t.me/jexroid) [![Twitter](https://img.shields.io/badge/Twitter-blue?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/jexroid)
 
