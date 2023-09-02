@@ -1,6 +1,6 @@
 {
-  "name": "GroupLancing",
-  "version": "1.0.0",
+  "name": "grouplancing",
+  "version": "1.1.2",
   "description": "tekanesh",
   "main": "index.js",
   "scripts": {
@@ -23,26 +23,20 @@
   },
   "dependencies": {
     "electron-store": "^8.1.0",
-    "regedit": "^5.1.2",
     "socksv5": "^0.0.6",
     "ssh2": "^1.14.0"
   },
   "build": {
-    "extraResources": [
-      {
-        "from": "node_modules/regedit/vbs",
-        "to": "regedit/vbs",
-        "filter": [
-          "**/*"
-        ]
-      }
-    ],
-    "win": {
-      "target": "nsis",
-      "icon": "assets\\logo1.png"
+    "appId": "com.grouplancing.app",
+    "copyright": "Copyright @2023-2024 Amirreza Farzan",
+    "directories": {
+      "output": "..\\build",
+      "buildResources": "."
     },
-    "nsis": {
-      "deleteAppDataOnUninstall": true
+    "linux": {
+      "category": "Network",
+      "target": "AppImage",
+      "icon": "assets\\logo1.png"
     }
   }
 }

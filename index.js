@@ -4,10 +4,7 @@ const path = require("path");
 const socks = require("socksv5");
 const { Client } = require("ssh2");
 const { exec } = require("child_process");
-
-const regedit = require("regedit");
 const { constrainedMemory } = require("process");
-regedit.setExternalVBSLocation("resources/regedit/vbs");
 
 const localProxy = {
   host: "localhost",
@@ -80,55 +77,45 @@ class sshTunnel {
     }
   }
 
-  static async widesystem() {
-    const keyPath =
-      "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings";
-
-    try {
-      await regedit.promisified.putValue({
-        [keyPath]: {
-          ProxyEnable: {
-            value: 1,
-            type: "REG_DWORD",
-          },
-          ProxyServer: {
-            value: "socks5://localhost:25000",
-            type: "REG_SZ",
-          },
-          ProxyOverride: {
-            value: "localhost;127.0.0.1",
-            type: "REG_SZ",
-          },
-        },
+  static async widesystem(proxyHost, proxyPort) {
+    const command = `networkctl set-proxy auto "http://${proxyHost}:${proxyPort}/" "https://${proxyHost}:${proxyPort}/" "ftp://${proxyHost}:${proxyPort}/"`;
+    new Promise((resolve, reject) => {
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Error setting proxy: ${error.message}`);
+          reject();
+        }
+        if (stderr) {
+          console.error(`Error setting proxy: ${stderr}`);
+          reject();
+        }
+        resolve();
+        console.log(`Proxy set: ${stdout}`);
       });
-      console.log("Registry values set on successfully");
-    } catch (error) {
-      console.error("Error setting registry values:", error);
-    }
+    });
   }
 
   static async localsystem() {
-    const keyPath =
-      "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings";
-
-    try {
-      await regedit.promisified.putValue({
-        [keyPath]: {
-          ProxyEnable: {
-            value: 0,
-            type: "REG_DWORD",
-          },
-        },
+    const command = "networkctl set-proxy none";
+    new Promise((resolve, reject) => {
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Error setting proxy off: ${error.message}`);
+          reject();
+        }
+        if (stderr) {
+          console.error(`Error setting proxy off: ${stderr}`);
+          reject()
+        }
+        console.log(`Proxy set off: ${stdout}`);
+        resolve()
       });
-      console.log("Registry values set off successfully");
-    } catch (error) {
-      console.error("Error setting registry values:", error);
-    }
+    });
   }
 
   static Browsing() {
     console.log("running chrome");
-    const command = `"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir="%USERPROFILE%\\proxy-profile" --proxy-server="socks5://localhost:25000"`;
+    const command = `open -a "Google Chrome" --args --proxy-server=localhost:25000`;
     exec(command);
   }
 }
