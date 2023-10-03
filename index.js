@@ -1,6 +1,8 @@
 const { app, BrowserWindow, ipcMain, dialog, shell } = require("electron");
 const Store = require("electron-store");
 const path = require("path");
+const socks = require("socksv5");
+const { Client } = require("ssh2");
 const { exec } = require("child_process");
 const { autoUpdater } = require("electron-updater");
 const regedit = require("regedit");
@@ -29,10 +31,60 @@ const store = new Store();
 
 
 class sshTunnel {
-  
+  static ssh() {
+    try {
+      socks
+        .createServer((info, accept, deny) => {
+          const conn = new Client();
+          conn
+            .on("ready", () => {
+              conn.forwardOut(
+                info.srcAddr,
+                info.srcPort,
+                info.dstAddr,
+                info.dstPort,
+                (err, stream) => {
+                  if (err) {
+                    conn.end();
+                    return deny(err);
+                  }
+                  const clientSocket = accept(true);
+                  if (clientSocket) {
+                    stream
+                      .pipe(clientSocket)
+                      .pipe(stream)
+                      .on("close", () => {
+                        conn.end();
+                      });
+                  } else {
+                    conn.end();
+                  }
+                }
+              );
+            })
+            .on("error", (err) => {
+              deny(err);
+            })
+            .connect(store.get("sshconfig"));
+        })
+        .listen(localProxy.port, "localhost")
+        .useAuth(socks.auth.None());
+    } catch (err) {
+      if (err.code == "ECONNRESET") {
+        console.log("ECONNRESET error occurred");
+      } else if (err.message == "Connection lost before handshake") {
+        console.log("Connection lost before handshake error occurred");
+        dialog.showErrorBox(
+          "Error",
+          "اتصال سه مرحله ای تی سی پی با مشکل مواجه شد"
+        );
+      }
+    }
+  }
+
   static async widesystem() {
     const keyPath =
-      "HKCU\\Software\\Microsoft\\Windows\\CurretVersion\\Internet Settings";
+      "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings";
 
     try {
       await regedit.promisified.putValue({
@@ -59,7 +111,7 @@ class sshTunnel {
 
   static async localsystem() {
     const keyPath =
-      "HKCU\\Software\\Microsoft\\Windows\\CurrntVersion\\Internet Settings";
+      "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings";
 
     try {
       await regedit.promisified.putValue({
