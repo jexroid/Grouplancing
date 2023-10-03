@@ -2,6 +2,12 @@
   
   ![GroupLancing](https://github.com/jexroid/jexroid/blob/main/white-logo.png)
   <br><br>
+  سلام و عرض ادب به کاربران و گروپ لنسینگ.
+
+ هرگونه پیشنهاد و انتقادی از سمت شما در باعث پیشرفت و بهبود کیفیت برنامه ما می باشد
+
+خوشحال میشیم از توانمندی شما برای بهبود این اپ استفاده کنیم 
+
   ![electron](https://img.shields.io/badge/Electron-v26.0.0-0066ff?style=for-the-badge&logo=electron)
   ![NPM](https://img.shields.io/badge/NPM-v8.19.4-ff1100?style=for-the-badge&logo=npm)
   
