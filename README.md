@@ -26,8 +26,7 @@
   <h1 align='center'> OS release:</h1>
   
   ![Windows](https://img.shields.io/badge/Windows-blue?logo=Windows&logoColor=white&style=for-the-badge)
-    ![Red_hat](https://img.shields.io/badge/MacOs-white?logo=apple&logoColor=black&style=for-the-badge)
-    ![Debian](https://img.shields.io/badge/Debian-red?logo=Debian&logoColor=white&style=for-the-badge)
+
 </div>
 
 
