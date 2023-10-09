@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // ? JS STYLE FUNCTIONS
   const exitBtn = document.getElementById("exit-btn");
   const minimizeBtn = document.getElementById("minimize-btn");
-  const btn1 = document.getElementById("btn1");
+  const start = document.getElementById("btn1");
   const validation = document.getElementById("vorod");
   const ip = document.getElementById("ip");
   const port = document.getElementById("port");
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
     window.api.openBrowser();
   });
 
-  btn1.addEventListener("click", function () {
+  start.addEventListener("click", function () {
     window.api.LoadCredentials().then((data) => {
       if (data == false) {
         console.log("data is not entered");
@@ -139,6 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (turnedOn == false) {
           turnedOn = true;
           coonectMSG.innerHTML = "Connected!";
+          startTimer()
           radio1.disabled = false;
           radio2.disabled = false;
         } else {
@@ -146,6 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
           coonectMSG.innerHTML = "Connect Now";
           radio1.disabled = true;
           radio2.disabled = true;
+          formatTime()
 
           // switching the radio bottoms if one of them were on
           radio1.checked = false;

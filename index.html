@@ -1,289 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="stylesheet" href="style.css" />
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
     <title>GroupLancing</title>
-  </head>
+</head>
 
-  <body>
+<body>
     <div id="window">
-      <div id="header">
-        <img
-          src="assets/setting.png"
-          class="setting"
-          id="setone"
-          width="26"
-          height="26"
-        /><label class="switch"
-          ><svg
-            class="switch__icon switch__icon--light"
-            viewBox="0 0 12 12"
-            width="12px"
-            height="12px"
-            aria-hidden="true"
-          >
-            <g
-              fill="none"
-              stroke="#fff"
-              stroke-width="1"
-              stroke-linecap="round"
-            >
-              <circle cx="6" cy="6" r="2" />
-              <g stroke-dasharray="1.5 1.5">
-                <polyline points="6 10,6 11.5" transform="rotate(0,6,6)" />
-                <polyline points="6 10,6 11.5" transform="rotate(45,6,6)" />
-                <polyline points="6 10,6 11.5" transform="rotate(90,6,6)" />
-                <polyline points="6 10,6 11.5" transform="rotate(135,6,6)" />
-                <polyline points="6 10,6 11.5" transform="rotate(180,6,6)" />
-                <polyline points="6 10,6 11.5" transform="rotate(225,6,6)" />
-                <polyline points="6 10,6 11.5" transform="rotate(270,6,6)" />
-                <polyline points="6 10,6 11.5" transform="rotate(315,6,6)" />
-              </g>
-            </g></svg></label
-        ><button class="header-btn" id="minimize-btn"></button
-        ><button class="header-btn" id="exit-btn"></button>
-      </div>
-      <div class="body">
-        <div class="logo">
-          <div class="image-container" id="btn1">
-            <img
-              src="assets/power.png"
-              alt="Your Image"
-              width="40"
-              height="40"
-            />
-          </div>
-          <p id="connect">Connect Now</p>
-          <div class="timer">00:00:00</div>
-          <img src="assets/black-logo.png" id="text-logo" />
+        <div id="header"><img src="assets/setting.png" class="setting" id="setone" width="26" height="26"><label
+                class="switch"><svg class="switch__icon switch__icon--light" viewBox="0 0 12 12" width="12px"
+                    height="12px" aria-hidden="true">
+                    <g fill="none" stroke="#fff" stroke-width="1" stroke-linecap="round">
+                        <circle cx="6" cy="6" r="2" />
+                        <g stroke-dasharray="1.5 1.5">
+                            <polyline points="6 10,6 11.5" transform="rotate(0,6,6)" />
+                            <polyline points="6 10,6 11.5" transform="rotate(45,6,6)" />
+                            <polyline points="6 10,6 11.5" transform="rotate(90,6,6)" />
+                            <polyline points="6 10,6 11.5" transform="rotate(135,6,6)" />
+                            <polyline points="6 10,6 11.5" transform="rotate(180,6,6)" />
+                            <polyline points="6 10,6 11.5" transform="rotate(225,6,6)" />
+                            <polyline points="6 10,6 11.5" transform="rotate(270,6,6)" />
+                            <polyline points="6 10,6 11.5" transform="rotate(315,6,6)" />
+                        </g>
+                    </g>
+                </svg></label><button class="header-btn" id="minimize-btn"></button><button class="header-btn"
+                id="exit-btn"></button></div>
+        <div class="body">
+            <div class="logo">
+                <div class="image-container" id="btn1"><img src="assets/power.png" alt="Your Image" width="40"
+                        height="40"></div>
+                <p id="connect">Connect Now</p>
+                <div class="timer">00:00:00</div><img src="assets/black-logo.png" id="text-logo">
+            </div>
+            <div id="notification" class="hidden">
+                <p id="message"></p><button id="close-button">Close</button><button id="restart-button"
+                    class="hidden">Restart</button>
+            </div>
+            <div class="proxytype"><input class="radio-input" name="proxytype" id="radio1" type="radio"><label
+                    class="radio-label" for="radio1"><span class="radio-inner-circle"></span>
+                    <h5>Set As System Proxy</h5>
+                </label><input class="radio-input" name="proxytype" id="radio2" type="radio"><label class="radio-label"
+                    for="radio2"><span class="radio-inner-circle"></span>
+                    <h5>Set Only On Chrome Browser</h5>
+                </label></div>
         </div>
-        <div id="notification" class="hidden">
-          <p id="message"></p>
-          <button id="close-button">Close</button
-          ><button id="restart-button" class="hidden">Restart</button>
+        <div class="overlay">
+            <center>
+                <div class="inputEl">
+                    <p style="font-size:12px">لطفا اطلاعات داده شده توسط پشتیبانی را تکمیل کنید</p>
+                    <div class="form"><button><svg width="30px" height="30px" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search">
+                                <path
+                                    d="M20.5 8.5V5.5C20.5 5.23478 20.3946 4.98043 20.2071 4.79289C20.0196 4.60536 19.7652 4.5 19.5 4.5H4.5C4.23478 4.5 3.98043 4.60536 3.79289 4.79289C3.60536 4.98043 3.5 5.23478 3.5 5.5V8.5C3.5 8.76522 3.60536 9.01957 3.79289 9.20711C3.98043 9.39464 4.23478 9.5 4.5 9.5C4.23478 9.5 3.98043 9.60536 3.79289 9.79289C3.60536 9.98043 3.5 10.2348 3.5 10.5V13.5C3.5 13.7652 3.60536 14.0196 3.79289 14.2071C3.98043 14.3946 4.23478 14.5 4.5 14.5C4.23478 14.5 3.98043 14.6054 3.79289 14.7929C3.60536 14.9804 3.5 15.2348 3.5 15.5V18.5C3.5 18.7652 3.60536 19.0196 3.79289 19.2071C3.98043 19.3946 4.23478 19.5 4.5 19.5H19.5C19.7652 19.5 20.0196 19.3946 20.2071 19.2071C20.3946 19.0196 20.5 18.7652 20.5 18.5V15.5C20.5 15.2348 20.3946 14.9804 20.2071 14.7929C20.0196 14.6054 19.7652 14.5 19.5 14.5C19.7652 14.5 20.0196 14.3946 20.2071 14.2071C20.3946 14.0196 20.5 13.7652 20.5 13.5V10.5C20.5 10.2348 20.3946 9.98043 20.2071 9.79289C20.0196 9.60536 19.7652 9.5 19.5 9.5C19.7652 9.5 20.0196 9.39464 20.2071 9.20711C20.3946 9.01957 20.5 8.76522 20.5 8.5ZM19.5 18.5H4.5V15.5H19.5V18.5ZM19.5 13.5H4.5V10.5H19.5V13.5ZM19.5 8.5H4.5V5.5H19.5V8.5Z"
+                                    fill="#000000" />
+                                <path
+                                    d="M6.25 7.75C6.66421 7.75 7 7.41421 7 7C7 6.58579 6.66421 6.25 6.25 6.25C5.83579 6.25 5.5 6.58579 5.5 7C5.5 7.41421 5.83579 7.75 6.25 7.75Z"
+                                    fill="#000000" />
+                                <path
+                                    d="M8.75 7.75C9.16421 7.75 9.5 7.41421 9.5 7C9.5 6.58579 9.16421 6.25 8.75 6.25C8.33579 6.25 8 6.58579 8 7C8 7.41421 8.33579 7.75 8.75 7.75Z"
+                                    fill="#000000" />
+                                <path
+                                    d="M6.25 12.75C6.66421 12.75 7 12.4142 7 12C7 11.5858 6.66421 11.25 6.25 11.25C5.83579 11.25 5.5 11.5858 5.5 12C5.5 12.4142 5.83579 12.75 6.25 12.75Z"
+                                    fill="#000000" />
+                                <path
+                                    d="M8.75 12.75C9.16421 12.75 9.5 12.4142 9.5 12C9.5 11.5858 9.16421 11.25 8.75 11.25C8.33579 11.25 8 11.5858 8 12C8 12.4142 8.33579 12.75 8.75 12.75Z"
+                                    fill="#000000" />
+                                <path
+                                    d="M6.25 17.75C6.66421 17.75 7 17.4142 7 17C7 16.5858 6.66421 16.25 6.25 16.25C5.83579 16.25 5.5 16.5858 5.5 17C5.5 17.4142 5.83579 17.75 6.25 17.75Z"
+                                    fill="#000000" />
+                                <path
+                                    d="M8.75 17.75C9.16421 17.75 9.5 17.4142 9.5 17C9.5 16.5858 9.16421 16.25 8.75 16.25C8.33579 16.25 8 16.5858 8 17C8 17.4142 8.33579 17.75 8.75 17.75Z"
+                                    fill="#000000" />
+                            </svg></button><input class="input" id="ip" placeholder="IP آدرس" required type="text">
+                    </div>
+                    <div class="form"><button><svg width="30px" height="30px" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M3 6C3 7.65685 4.34315 9 6 9C7.65685 9 9 7.65685 9 6C9 4.34315 7.65685 3 6 3C4.34315 3 3 4.34315 3 6Z"
+                                    stroke="#323232" stroke-width="2" />
+                                <path
+                                    d="M3 18C3 19.6569 4.34315 21 6 21C7.65685 21 9 19.6569 9 18C9 16.3431 7.65685 15 6 15C4.34315 15 3 16.3431 3 18Z"
+                                    stroke="#323232" stroke-width="2" />
+                                <path
+                                    d="M15 6C15 7.65685 16.3431 9 18 9C19.6569 9 21 7.65685 21 6C21 4.34315 19.6569 3 18 3C16.3431 3 15 4.34315 15 6Z"
+                                    stroke="#323232" stroke-width="2" />
+                                <path d="M6 15V9" stroke="#323232" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M18 9V12.3242C18 16.9982 16.9424 18 12.008 18H9" stroke="#323232"
+                                    stroke-width="2" stroke-linecap="round" />
+                            </svg></button><input class="input" id="port" placeholder="پورت" required type="number">
+                    </div>
+                    <div class="form"><button><svg width="30px" height="30px" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M11 21H4C4 17.4735 6.60771 14.5561 10 14.0709M19.8726 15.2038C19.8044 15.2079 19.7357 15.21 19.6667 15.21C18.6422 15.21 17.7077 14.7524 17 14C16.2923 14.7524 15.3578 15.2099 14.3333 15.2099C14.2643 15.2099 14.1956 15.2078 14.1274 15.2037C14.0442 15.5853 14 15.9855 14 16.3979C14 18.6121 15.2748 20.4725 17 21C18.7252 20.4725 20 18.6121 20 16.3979C20 15.9855 19.9558 15.5853 19.8726 15.2038ZM15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z"
+                                    stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg></button><input class="input" id="username" placeholder="نام کاربری" required
+                            type="text"></div>
+                    <div class="form"><button><svg width="30px" height="30px" viewBox="0 0 192 192"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 0h192v192H0z" style="fill:none" />
+                                <circle cx="96" cy="96" r="67"
+                                    style="stroke:#000;stroke-width:12px;stroke-miterlimit:10;fill:none" />
+                                <path
+                                    d="M106.84 103.05C112.93 99.37 117 92.69 117 85.06c0-11.6-9.4-21-21-21s-21 9.4-21 21c0 7.63 4.07 14.31 10.16 17.99L75 127.93h42l-10.16-24.88Z"
+                                    style="stroke-linejoin:round;stroke:#000;stroke-width:12px;fill:none" />
+                                <path d="m22 22 26 26m96 96 26 26m-148 0 26-26m96-96 26-26"
+                                    style="fill:none;stroke-linecap:round;stroke-miterlimit:10;stroke:#000;stroke-width:12px" />
+                            </svg></button><input class="input" id="password" placeholder="رمز عبور" required
+                            type="text"></div><br><button id="vorod">ورود</button>
+                    <div id="warning-msg">
+                        <p id="fa fa-warning"><b>اخطار:</b>بعد از ثبت و تغییر اطلاعات حتما برنامه را بسته و دوباره اجرا
+                            کنید تا وصل شوید</p>
+                    </div>
+                    <div id="error-msg">
+                        <p id="es-circle">ثبت اطلاعات انجام نشد</p>
+                    </div>
+                </div>
+                <div id="banner">
+                    <p id="matn">توجه</p><img id="infoimage" src="assets/info.png" width="25" height="25">
+                </div>
+                <div id="secbanner">
+                    <p>این برنامه جهت استفاده فریلنسرهای ایرانی جهت ورود به مارکت بین الملل با هدف اشتغال و ارزآوری
+                        طراحی شده و هرگونه استفاده شخصی از این برنامه شرعا و قانونا طبق مجازات اسلامی مجاز نخواهد بود</p>
+                </div><a id="version" href="#">version:</a>
+            </center>
         </div>
-        <div class="proxytype">
-          <input
-            class="radio-input"
-            name="proxytype"
-            id="radio1"
-            type="radio"
-          /><label class="radio-label" for="radio1"
-            ><span class="radio-inner-circle"></span>
-            <h5>Set As System Proxy</h5> </label
-          ><input
-            class="radio-input"
-            name="proxytype"
-            id="radio2"
-            type="radio"
-          /><label class="radio-label" for="radio2"
-            ><span class="radio-inner-circle"></span>
-            <h5>Set Only On Chrome Browser</h5>
-          </label>
-        </div>
-      </div>
-      <div class="overlay">
-        <center>
-          <div class="inputEl">
-            <p style="font-size: 12px">
-              لطفا اطلاعات داده شده توسط پشتیبانی را تکمیل کنید
-            </p>
-            <div class="form">
-              <button>
-                <svg
-                  width="30px"
-                  height="30px"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  role="img"
-                  aria-labelledby="search"
-                >
-                  <path
-                    d="M20.5 8.5V5.5C20.5 5.23478 20.3946 4.98043 20.2071 4.79289C20.0196 4.60536 19.7652 4.5 19.5 4.5H4.5C4.23478 4.5 3.98043 4.60536 3.79289 4.79289C3.60536 4.98043 3.5 5.23478 3.5 5.5V8.5C3.5 8.76522 3.60536 9.01957 3.79289 9.20711C3.98043 9.39464 4.23478 9.5 4.5 9.5C4.23478 9.5 3.98043 9.60536 3.79289 9.79289C3.60536 9.98043 3.5 10.2348 3.5 10.5V13.5C3.5 13.7652 3.60536 14.0196 3.79289 14.2071C3.98043 14.3946 4.23478 14.5 4.5 14.5C4.23478 14.5 3.98043 14.6054 3.79289 14.7929C3.60536 14.9804 3.5 15.2348 3.5 15.5V18.5C3.5 18.7652 3.60536 19.0196 3.79289 19.2071C3.98043 19.3946 4.23478 19.5 4.5 19.5H19.5C19.7652 19.5 20.0196 19.3946 20.2071 19.2071C20.3946 19.0196 20.5 18.7652 20.5 18.5V15.5C20.5 15.2348 20.3946 14.9804 20.2071 14.7929C20.0196 14.6054 19.7652 14.5 19.5 14.5C19.7652 14.5 20.0196 14.3946 20.2071 14.2071C20.3946 14.0196 20.5 13.7652 20.5 13.5V10.5C20.5 10.2348 20.3946 9.98043 20.2071 9.79289C20.0196 9.60536 19.7652 9.5 19.5 9.5C19.7652 9.5 20.0196 9.39464 20.2071 9.20711C20.3946 9.01957 20.5 8.76522 20.5 8.5ZM19.5 18.5H4.5V15.5H19.5V18.5ZM19.5 13.5H4.5V10.5H19.5V13.5ZM19.5 8.5H4.5V5.5H19.5V8.5Z"
-                    fill="#000000"
-                  />
-                  <path
-                    d="M6.25 7.75C6.66421 7.75 7 7.41421 7 7C7 6.58579 6.66421 6.25 6.25 6.25C5.83579 6.25 5.5 6.58579 5.5 7C5.5 7.41421 5.83579 7.75 6.25 7.75Z"
-                    fill="#000000"
-                  />
-                  <path
-                    d="M8.75 7.75C9.16421 7.75 9.5 7.41421 9.5 7C9.5 6.58579 9.16421 6.25 8.75 6.25C8.33579 6.25 8 6.58579 8 7C8 7.41421 8.33579 7.75 8.75 7.75Z"
-                    fill="#000000"
-                  />
-                  <path
-                    d="M6.25 12.75C6.66421 12.75 7 12.4142 7 12C7 11.5858 6.66421 11.25 6.25 11.25C5.83579 11.25 5.5 11.5858 5.5 12C5.5 12.4142 5.83579 12.75 6.25 12.75Z"
-                    fill="#000000"
-                  />
-                  <path
-                    d="M8.75 12.75C9.16421 12.75 9.5 12.4142 9.5 12C9.5 11.5858 9.16421 11.25 8.75 11.25C8.33579 11.25 8 11.5858 8 12C8 12.4142 8.33579 12.75 8.75 12.75Z"
-                    fill="#000000"
-                  />
-                  <path
-                    d="M6.25 17.75C6.66421 17.75 7 17.4142 7 17C7 16.5858 6.66421 16.25 6.25 16.25C5.83579 16.25 5.5 16.5858 5.5 17C5.5 17.4142 5.83579 17.75 6.25 17.75Z"
-                    fill="#000000"
-                  />
-                  <path
-                    d="M8.75 17.75C9.16421 17.75 9.5 17.4142 9.5 17C9.5 16.5858 9.16421 16.25 8.75 16.25C8.33579 16.25 8 16.5858 8 17C8 17.4142 8.33579 17.75 8.75 17.75Z"
-                    fill="#000000"
-                  />
-                </svg></button
-              ><input
-                class="input"
-                id="ip"
-                placeholder="IP آدرس"
-                required
-                type="text"
-              />
-            </div>
-            <div class="form">
-              <button>
-                <svg
-                  width="30px"
-                  height="30px"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M3 6C3 7.65685 4.34315 9 6 9C7.65685 9 9 7.65685 9 6C9 4.34315 7.65685 3 6 3C4.34315 3 3 4.34315 3 6Z"
-                    stroke="#323232"
-                    stroke-width="2"
-                  />
-                  <path
-                    d="M3 18C3 19.6569 4.34315 21 6 21C7.65685 21 9 19.6569 9 18C9 16.3431 7.65685 15 6 15C4.34315 15 3 16.3431 3 18Z"
-                    stroke="#323232"
-                    stroke-width="2"
-                  />
-                  <path
-                    d="M15 6C15 7.65685 16.3431 9 18 9C19.6569 9 21 7.65685 21 6C21 4.34315 19.6569 3 18 3C16.3431 3 15 4.34315 15 6Z"
-                    stroke="#323232"
-                    stroke-width="2"
-                  />
-                  <path
-                    d="M6 15V9"
-                    stroke="#323232"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M18 9V12.3242C18 16.9982 16.9424 18 12.008 18H9"
-                    stroke="#323232"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                  />
-                </svg></button
-              ><input
-                class="input"
-                id="port"
-                placeholder="پورت"
-                required
-                type="number"
-              />
-            </div>
-            <div class="form">
-              <button>
-                <svg
-                  width="30px"
-                  height="30px"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M11 21H4C4 17.4735 6.60771 14.5561 10 14.0709M19.8726 15.2038C19.8044 15.2079 19.7357 15.21 19.6667 15.21C18.6422 15.21 17.7077 14.7524 17 14C16.2923 14.7524 15.3578 15.2099 14.3333 15.2099C14.2643 15.2099 14.1956 15.2078 14.1274 15.2037C14.0442 15.5853 14 15.9855 14 16.3979C14 18.6121 15.2748 20.4725 17 21C18.7252 20.4725 20 18.6121 20 16.3979C20 15.9855 19.9558 15.5853 19.8726 15.2038ZM15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z"
-                    stroke="#000000"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg></button
-              ><input
-                class="input"
-                id="username"
-                placeholder="نام کاربری"
-                required
-                type="text"
-              />
-            </div>
-            <div class="form">
-              <button>
-                <svg
-                  width="30px"
-                  height="30px"
-                  viewBox="0 0 192 192"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M0 0h192v192H0z" style="fill: none" />
-                  <circle
-                    cx="96"
-                    cy="96"
-                    r="67"
-                    style="
-                      stroke: #000;
-                      stroke-width: 12px;
-                      stroke-miterlimit: 10;
-                      fill: none;
-                    "
-                  />
-                  <path
-                    d="M106.84 103.05C112.93 99.37 117 92.69 117 85.06c0-11.6-9.4-21-21-21s-21 9.4-21 21c0 7.63 4.07 14.31 10.16 17.99L75 127.93h42l-10.16-24.88Z"
-                    style="
-                      stroke-linejoin: round;
-                      stroke: #000;
-                      stroke-width: 12px;
-                      fill: none;
-                    "
-                  />
-                  <path
-                    d="m22 22 26 26m96 96 26 26m-148 0 26-26m96-96 26-26"
-                    style="
-                      fill: none;
-                      stroke-linecap: round;
-                      stroke-miterlimit: 10;
-                      stroke: #000;
-                      stroke-width: 12px;
-                    "
-                  />
-                </svg></button
-              ><input
-                class="input"
-                id="password"
-                placeholder="رمز عبور"
-                required
-                type="text"
-              />
-            </div>
-            <br /><button id="vorod">ورود</button>
-            <div id="warning-msg">
-              <p id="fa fa-warning">
-                <b>اخطار:</b>بعد از ثبت و تغییر اطلاعات حتما برنامه را بسته و
-                دوباره اجرا کنید تا وصل شوید
-              </p>
-            </div>
-            <div id="error-msg">
-              <p id="es-circle">ثبت اطلاعات انجام نشد</p>
-            </div>
-          </div>
-          <div id="banner">
-            <p id="matn">توجه</p>
-            <img id="infoimage" src="assets/info.png" width="25" height="25" />
-          </div>
-          <div id="secbanner">
-            <p>
-              این برنامه جهت استفاده فریلنسرهای ایرانی جهت ورود به مارکت بین
-              الملل با هدف اشتغال و ارزآوری طراحی شده و هرگونه استفاده شخصی از
-              این برنامه شرعا و قانونا طبق مجازات اسلامی مجاز نخواهد بود
-            </p>
-          </div>
-          <a id="version" href="#">version:</a>
-        </center>
-      </div>
     </div>
-  </body>
+</body>
+
 </html>
